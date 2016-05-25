@@ -45,7 +45,7 @@ public class JokesResponseRepositoryTest
     public void should_get_jokes_from_repository() throws IOException
     {
         mockJsonHttpResponse("jokes.json");
-        Joke expected = new Joke(1,"Chuck Norris uses ribbed condoms inside out, so he gets the pleasure.", null);
+        Joke expected = new Joke(1,"Chuck Norris uses ribbed condoms inside out, so he gets the pleasure.");
 
         Joke actual = itemsFromObservable(jokesRepository.jokes()).value.get(0);
 
