@@ -6,8 +6,9 @@ public class Joke
 {
     public int id;
     public String joke;
-    public List<String> categories;
+    private List<String> categories;
 
+    @SuppressWarnings("SameParameterValue")
     public Joke(int id, String joke, List<String> categories)
     {
         this.id = id;

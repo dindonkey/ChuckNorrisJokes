@@ -53,6 +53,7 @@ public class JokesResponseRepositoryTest
         assertEquals(expected.joke, actual.joke);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void mockJsonHttpResponse(String jsonPath) throws IOException
     {
         mockWebServer.enqueue(new MockResponse()
