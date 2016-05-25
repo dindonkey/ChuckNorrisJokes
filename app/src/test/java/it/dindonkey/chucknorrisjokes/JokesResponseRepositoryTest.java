@@ -38,7 +38,7 @@ public class JokesResponseRepositoryTest
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         jokesRepository = retrofit.create(JokesRepository.class);
-        testSubscriber = new TestSubscriber();
+        testSubscriber = new TestSubscriber<>();
     }
 
     @Test
