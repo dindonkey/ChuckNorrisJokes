@@ -6,8 +6,4 @@ public class JokesResponse
 {
     public List<Joke> value;
 
-    public JokesResponse(List<Joke> value)
-    {
-        this.value = value;
-    }
 }
