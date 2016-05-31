@@ -1,11 +1,8 @@
 package it.dindonkey.chucknorrisjokes.repository;
 
-import it.dindonkey.chucknorrisjokes.model.JokesResponse;
-import retrofit2.http.GET;
-import rx.Observable;
+import rx.Subscriber;
 
 public interface JokesRepository
 {
-    @GET("/")
-    Observable<JokesResponse> jokes();
+    void getJokes(Subscriber subscriber);
 }
