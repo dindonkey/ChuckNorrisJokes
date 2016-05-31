@@ -18,6 +18,7 @@ public class InMemoryJokesRepository implements JokesRepository
     private IcndbApiService mIcndbApiService;
     private SchedulerManager mSchedulerManager;
 //    private ConnectableObservable mCachedObservable;
+    private Observable<JokesResponse> mCachedObservable;
 
     public InMemoryJokesRepository(IcndbApiService icndbApiService,
                                    SchedulerManager schedulerManager)
@@ -31,9 +32,9 @@ public class InMemoryJokesRepository implements JokesRepository
     {
         if (null == mCachedJokes)
         {
-//            if (null == mCachedObservable)
-//            {
-            Observable<JokesResponse> observable = mIcndbApiService.jokes()
+            if (null == mCachedObservable)
+            {
+                mCachedObservable = mIcndbApiService.jokes()
                     .doOnNext(saveJokes())
                     .subscribeOn(mSchedulerManager.computation())
                     .observeOn(mSchedulerManager.mainThread());
@@ -45,9 +46,9 @@ public class InMemoryJokesRepository implements JokesRepository
 //                        .replay();
 
 //            mCachedObservable.connect();
-////            }
+            }
 //            mCachedObservable.subscribe(subscriber);
-            observable.subscribe(subscriber);
+            mCachedObservable.subscribe(subscriber);
         } else
         {
             subscriber.onNext(mCachedJokes);

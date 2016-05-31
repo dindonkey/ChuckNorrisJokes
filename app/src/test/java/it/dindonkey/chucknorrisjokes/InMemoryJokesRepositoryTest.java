@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 import it.dindonkey.chucknorrisjokes.model.Joke;
 import it.dindonkey.chucknorrisjokes.model.JokesResponse;
@@ -13,14 +14,17 @@ import it.dindonkey.chucknorrisjokes.repository.IcndbApiService;
 import it.dindonkey.chucknorrisjokes.repository.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.repository.SchedulerManager;
 import rx.Observable;
+import rx.Scheduler;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
+import rx.schedulers.TestScheduler;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class InMemoryJokesRepositoryTest
 {
+    public static final Joke TEST_JOKE = new Joke(1, "test joke");
     private InMemoryJokesRepository mInMemoryJokesRepository;
     private TestSubscriber mTestSubscriber;
 
@@ -31,7 +35,7 @@ public class InMemoryJokesRepositoryTest
     public void setUp() throws Exception
     {
         MockitoAnnotations.initMocks(this);
-        when(mIcndbApiServiceMock.jokes()).thenReturn(jokesReponseWith(new Joke(1,"test joke")));
+        when(mIcndbApiServiceMock.jokes()).thenReturn(jokesReponseWith(TEST_JOKE));
 
         mTestSubscriber = new TestSubscriber();
         SchedulerManager schedulerManager = new SchedulerManager(Schedulers.immediate(),
@@ -57,6 +61,20 @@ public class InMemoryJokesRepositoryTest
         verify(mIcndbApiServiceMock).jokes();
     }
 
+    @Test
+    public void should_not_get_jokes_while_previous_request_is_in_progress() throws Exception
+    {
+        TestScheduler testScheduler = new TestScheduler();
+        when(mIcndbApiServiceMock.jokes())
+                .thenReturn(jokesReponseWith(TEST_JOKE).delay(5, TimeUnit.SECONDS, testScheduler));
+
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
+        testScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
+
+        verify(mIcndbApiServiceMock).jokes();
+    }
+
     private Observable<JokesResponse> jokesReponseWith(Joke joke)
     {
         JokesResponse jokesResponse = new JokesResponse();
@@ -64,4 +82,5 @@ public class InMemoryJokesRepositoryTest
 
         return Observable.just(jokesResponse);
     }
+
 }
