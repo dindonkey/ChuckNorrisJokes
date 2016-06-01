@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import rx.Subscriber;
+import rx.Subscription;
 import rx.functions.Action1;
 import rx.observables.ConnectableObservable;
 
@@ -14,6 +15,7 @@ public class InMemoryJokesRepository implements JokesRepository
     private final IcndbApiService mIcndbApiService;
     private final SchedulerManager mSchedulerManager;
     private ConnectableObservable<List<Joke>> mCachedObservable;
+    private Subscription mSubscription;
 
     public InMemoryJokesRepository(IcndbApiService icndbApiService,
                                    SchedulerManager schedulerManager)
@@ -36,7 +38,7 @@ public class InMemoryJokesRepository implements JokesRepository
                         .replay();
                 mCachedObservable.connect();
             }
-            mCachedObservable.subscribe(subscriber);
+            mSubscription = mCachedObservable.subscribe(subscriber);
         } else
         {
             subscriber.onNext(mCachedJokes);
@@ -49,6 +51,15 @@ public class InMemoryJokesRepository implements JokesRepository
     {
         mCachedJokes = null;
         mCachedObservable = null;
+    }
+
+    @Override
+    public void clearSubscription()
+    {
+        if(null != mSubscription && !mSubscription.isUnsubscribed())
+        {
+            mSubscription.unsubscribe();
+        }
     }
 
     @NonNull

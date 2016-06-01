@@ -9,4 +9,6 @@ interface JokesRepository
     void getJokes(Subscriber<List<Joke>> subscriber);
 
     void clearCache();
+
+    void clearSubscription();
 }

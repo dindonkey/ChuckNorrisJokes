@@ -67,6 +67,16 @@ public class InMemoryJokesRepositoryTest
     }
 
     @Test
+    public void should_redo_request_if_cache_is_cleared()
+    {
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
+        mInMemoryJokesRepository.clearCache();
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
+
+        verify(mDummyHttpClientMock, times(2)).doRequest();
+    }
+
+    @Test
     public void should_not_do_new_request_if_a_request_is_in_progress()
     {
         when(mIcndbApiServiceMock.jokes())
@@ -80,13 +90,16 @@ public class InMemoryJokesRepositoryTest
     }
 
     @Test
-    public void should_redo_request_if_cache_is_cleared()
+    public void should_unsubsribe_observer_while_request_is_running_if_requested() throws Exception
     {
-        mInMemoryJokesRepository.getJokes(mTestSubscriber);
-        mInMemoryJokesRepository.clearCache();
-        mInMemoryJokesRepository.getJokes(mTestSubscriber);
+        when(mIcndbApiServiceMock.jokes())
+                .thenReturn(observableWithHttpMockAndDelay(5, mTestScheduler));
 
-        verify(mDummyHttpClientMock, times(2)).doRequest();
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
+        mTestScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
+        mInMemoryJokesRepository.clearSubscription();
+
+        mTestSubscriber.assertUnsubscribed();
     }
 
     @SuppressWarnings("SameParameterValue")
