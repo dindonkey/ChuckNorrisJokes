@@ -5,9 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 import it.dindonkey.chucknorrisjokes.model.Joke;
-import it.dindonkey.chucknorrisjokes.model.JokesResponse;
 import it.dindonkey.chucknorrisjokes.repository.IcndbApiService;
 import it.dindonkey.chucknorrisjokes.repository.RetrofitIcndbApiServiceFactory;
 import okhttp3.mockwebserver.MockResponse;
@@ -22,7 +22,7 @@ public class RetrofitIcndbApiServiceFactoryTest
 
     private MockWebServer mockWebServer;
     private IcndbApiService icndbApiService;
-    private TestSubscriber<JokesResponse> testSubscriber;
+    private TestSubscriber<List<Joke>> testSubscriber;
 
     @Before
     public void setUp() throws Exception
@@ -40,8 +40,8 @@ public class RetrofitIcndbApiServiceFactoryTest
         mockJsonHttpResponse("jokes.json");
         Joke expected = new Joke(1,"Chuck Norris uses ribbed condoms inside out, so he gets the pleasure.");
 
-        JokesResponse jokesResponse = responseFromObservable(icndbApiService.jokes());
-        Joke actual = jokesResponse.value.get(0);
+        List<Joke> jokes = responseFromObservable(icndbApiService.jokes());
+        Joke actual = jokes.get(0);
 
         assertEquals(expected.id, actual.id);
         assertEquals(expected.joke, actual.joke);
@@ -55,7 +55,7 @@ public class RetrofitIcndbApiServiceFactoryTest
                 .setBody(getStringFromFile(jsonPath)));
     }
 
-    private JokesResponse responseFromObservable(Observable<JokesResponse> observable)
+    private List<Joke> responseFromObservable(Observable<List<Joke>> observable)
     {
         observable.subscribe(testSubscriber);
         return testSubscriber.getOnNextEvents().get(0);

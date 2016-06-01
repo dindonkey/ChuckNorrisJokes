@@ -5,10 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import it.dindonkey.chucknorrisjokes.model.Joke;
-import it.dindonkey.chucknorrisjokes.model.JokesResponse;
-import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.observables.ConnectableObservable;
 
@@ -62,14 +59,14 @@ public class InMemoryJokesRepository implements JokesRepository
 //    }
 
     @NonNull
-    private Action1<JokesResponse> saveJokes()
+    private Action1<List<Joke>> saveJokes()
     {
-        return new Action1<JokesResponse>()
+        return new Action1<List<Joke>>()
         {
             @Override
-            public void call(JokesResponse jokesResponse)
+            public void call(List<Joke> jokes)
             {
-                mCachedJokes = jokesResponse.value;
+                mCachedJokes = jokes;
             }
         };
     }

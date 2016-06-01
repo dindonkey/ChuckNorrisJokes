@@ -8,10 +8,10 @@ import org.mockito.MockitoAnnotations;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import it.dindonkey.chucknorrisjokes.model.Joke;
-import it.dindonkey.chucknorrisjokes.model.JokesResponse;
 import it.dindonkey.chucknorrisjokes.repository.IcndbApiService;
 import it.dindonkey.chucknorrisjokes.repository.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.repository.SchedulerManager;
@@ -41,7 +41,7 @@ public class InMemoryJokesRepositoryTest
     public void setUp() throws Exception
     {
         MockitoAnnotations.initMocks(this);
-        when(mIcndbApiServiceMock.jokes()).thenReturn(jokesReponseWith(TEST_JOKE));
+        when(mIcndbApiServiceMock.jokes()).thenReturn(observableWithJoke(TEST_JOKE));
 
         mTestSubscriber = new TestSubscriber();
         mTestScheduler = new TestScheduler();
@@ -82,12 +82,9 @@ public class InMemoryJokesRepositoryTest
         verify(mHttpUrlConnectionMock).connect();
     }
 
-    private Observable<JokesResponse> jokesReponseWith(Joke joke)
+    private Observable<List<Joke>> observableWithJoke(Joke joke)
     {
-        JokesResponse jokesResponse = new JokesResponse();
-        jokesResponse.value = Collections.singletonList(joke);
-
-        return Observable.just(jokesResponse);
+          return Observable.just(Collections.singletonList(joke));
     }
 
     private Observable observableWithDelay(final HttpURLConnection connection,
