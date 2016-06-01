@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes.repository;
+package it.dindonkey.chucknorrisjokes.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".JokesActivity">
+        <activity android:name=".jokes.JokesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

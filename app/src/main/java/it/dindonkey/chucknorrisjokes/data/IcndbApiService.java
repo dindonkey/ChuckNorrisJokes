@@ -1,8 +1,7 @@
-package it.dindonkey.chucknorrisjokes.repository;
+package it.dindonkey.chucknorrisjokes.data;
 
 import java.util.List;
 
-import it.dindonkey.chucknorrisjokes.model.Joke;
 import retrofit2.http.GET;
 import rx.Observable;
 

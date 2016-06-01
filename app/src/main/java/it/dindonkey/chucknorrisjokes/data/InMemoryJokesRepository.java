@@ -1,10 +1,9 @@
-package it.dindonkey.chucknorrisjokes.repository;
+package it.dindonkey.chucknorrisjokes.data;
 
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import it.dindonkey.chucknorrisjokes.model.Joke;
 import rx.Subscriber;
 import rx.functions.Action1;
 import rx.observables.ConnectableObservable;

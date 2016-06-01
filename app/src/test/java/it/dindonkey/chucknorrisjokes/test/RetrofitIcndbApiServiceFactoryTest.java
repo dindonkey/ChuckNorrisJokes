@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes;
+package it.dindonkey.chucknorrisjokes.test;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
@@ -7,9 +7,9 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-import it.dindonkey.chucknorrisjokes.model.Joke;
-import it.dindonkey.chucknorrisjokes.repository.IcndbApiService;
-import it.dindonkey.chucknorrisjokes.repository.RetrofitIcndbApiServiceFactory;
+import it.dindonkey.chucknorrisjokes.data.Joke;
+import it.dindonkey.chucknorrisjokes.data.IcndbApiService;
+import it.dindonkey.chucknorrisjokes.data.RetrofitIcndbApiServiceFactory;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import rx.Observable;

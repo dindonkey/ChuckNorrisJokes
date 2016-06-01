@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes;
+package it.dindonkey.chucknorrisjokes.test;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,9 +7,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.concurrent.TimeUnit;
 
-import it.dindonkey.chucknorrisjokes.repository.IcndbApiService;
-import it.dindonkey.chucknorrisjokes.repository.InMemoryJokesRepository;
-import it.dindonkey.chucknorrisjokes.repository.SchedulerManager;
+import it.dindonkey.chucknorrisjokes.data.IcndbApiService;
+import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
+import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
 import rx.Observable;
 import rx.Scheduler;
 import rx.observers.TestSubscriber;

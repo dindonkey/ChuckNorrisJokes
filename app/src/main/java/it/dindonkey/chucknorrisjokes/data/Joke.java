@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes.model;
+package it.dindonkey.chucknorrisjokes.data;
 
 public class Joke
 {

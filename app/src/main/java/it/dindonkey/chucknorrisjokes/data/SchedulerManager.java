@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes.repository;
+package it.dindonkey.chucknorrisjokes.data;
 
 import rx.Scheduler;
 
