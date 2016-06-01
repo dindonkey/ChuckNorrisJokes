@@ -35,7 +35,7 @@ public class InMemoryJokesRepositoryTest
     DummyHttpClient mDummyHttpClientMock;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         MockitoAnnotations.initMocks(this);
         when(mIcndbApiServiceMock.jokes()).thenReturn(observableWithHttpMock());
@@ -50,7 +50,7 @@ public class InMemoryJokesRepositoryTest
     }
 
     @Test
-    public void should_do_network_request_to_get_jokes() throws Exception
+    public void should_do_network_request_to_get_jokes()
     {
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
 
@@ -58,7 +58,7 @@ public class InMemoryJokesRepositoryTest
     }
 
     @Test
-    public void should_cache_result_if_previous_request_was_completed() throws Exception
+    public void should_cache_result_if_previous_request_was_completed()
     {
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
@@ -67,7 +67,7 @@ public class InMemoryJokesRepositoryTest
     }
 
     @Test
-    public void should_not_do_new_request_if_a_request_is_in_progress() throws Exception
+    public void should_not_do_new_request_if_a_request_is_in_progress()
     {
         when(mIcndbApiServiceMock.jokes())
                 .thenReturn(observableWithHttpMockAndDelay(5, mTestScheduler));
@@ -80,7 +80,7 @@ public class InMemoryJokesRepositoryTest
     }
 
     @Test
-    public void should_redo_request_if_cache_is_cleared() throws Exception
+    public void should_redo_request_if_cache_is_cleared()
     {
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
         mInMemoryJokesRepository.clearCache();
@@ -116,6 +116,7 @@ public class InMemoryJokesRepositoryTest
 
     class DummyHttpClient
     {
+        @SuppressWarnings("EmptyMethod")
         public void doRequest()
         {
             //It does nothing. It's just to track network request

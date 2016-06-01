@@ -11,8 +11,8 @@ import rx.observables.ConnectableObservable;
 public class InMemoryJokesRepository implements JokesRepository
 {
     private List<Joke> mCachedJokes;
-    private IcndbApiService mIcndbApiService;
-    private SchedulerManager mSchedulerManager;
+    private final IcndbApiService mIcndbApiService;
+    private final SchedulerManager mSchedulerManager;
     private ConnectableObservable<List<Joke>> mCachedObservable;
 
     public InMemoryJokesRepository(IcndbApiService icndbApiService,

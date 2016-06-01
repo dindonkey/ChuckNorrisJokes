@@ -2,8 +2,8 @@ package it.dindonkey.chucknorrisjokes.data;
 
 public class Joke
 {
-    public int id;
-    public String joke;
+    public final int id;
+    public final String joke;
 
     @SuppressWarnings("SameParameterValue")
     public Joke(int id, String joke)
