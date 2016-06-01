@@ -1,0 +1,5 @@
+TODO: Activity with Fragment
+TODO: Add list with recycleview
+TODO: Add Presenter and View interface
+TODO: Mock data flavour
+TODO: Use CompositeSubscription
