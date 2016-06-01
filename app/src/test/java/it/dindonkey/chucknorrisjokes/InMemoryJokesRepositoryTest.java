@@ -5,44 +5,37 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import it.dindonkey.chucknorrisjokes.model.Joke;
 import it.dindonkey.chucknorrisjokes.repository.IcndbApiService;
 import it.dindonkey.chucknorrisjokes.repository.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.repository.SchedulerManager;
 import rx.Observable;
 import rx.Scheduler;
-import rx.Subscriber;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class InMemoryJokesRepositoryTest
 {
-    public static final Joke TEST_JOKE = new Joke(1, "test joke");
     private InMemoryJokesRepository mInMemoryJokesRepository;
-    private TestSubscriber<List<Joke>> mTestSubscriber;
+    private TestSubscriber mTestSubscriber;
+    private TestScheduler mTestScheduler;
 
     @Mock
     IcndbApiService mIcndbApiServiceMock;
     @Mock
-    HttpURLConnection mHttpUrlConnectionMock;
-    private TestScheduler mTestScheduler;
+    DummyHttpClient mDummyHttpClientMock;
 
     @Before
     public void setUp() throws Exception
     {
         MockitoAnnotations.initMocks(this);
-        when(mIcndbApiServiceMock.jokes()).thenReturn(observableWithJoke(TEST_JOKE));
+        when(mIcndbApiServiceMock.jokes()).thenReturn(observableWithHttpMock());
 
         mTestSubscriber = new TestSubscriber();
         mTestScheduler = new TestScheduler();
@@ -54,73 +47,75 @@ public class InMemoryJokesRepositoryTest
     }
 
     @Test
-    public void should_get_jokes_from_service() throws Exception
+    public void should_do_network_request_to_get_jokes() throws Exception
     {
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
 
-        verify(mIcndbApiServiceMock).jokes();
+        verify(mDummyHttpClientMock).doRequest();
     }
 
     @Test
-    public void should_cache_jokes() throws Exception
+    public void should_cache_result_if_previous_request_was_completed() throws Exception
     {
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
 
-        verify(mIcndbApiServiceMock).jokes();
+        verify(mDummyHttpClientMock).doRequest();
     }
 
     @Test
-    public void should_not_make_new_request_while_previous_request_is_in_progress() throws Exception
+    public void should_not_do_new_request_if_a_request_is_in_progress() throws Exception
     {
         when(mIcndbApiServiceMock.jokes())
-                .thenReturn(observableWithDelay(mHttpUrlConnectionMock,5, mTestScheduler));
+                .thenReturn(observableWithHttpMockAndDelay(5, mTestScheduler));
 
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
         mTestScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
 
-        verify(mHttpUrlConnectionMock).connect();
+        verify(mDummyHttpClientMock).doRequest();
     }
 
     @Test
-    public void should_clear_cache_if_requested() throws Exception
+    public void should_redo_request_if_cache_is_cleared() throws Exception
     {
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
-        when(mIcndbApiServiceMock.jokes()).thenReturn(observableWithJoke(new Joke(2,"another test joke")));
-
         mInMemoryJokesRepository.clearCache();
-
-        mTestSubscriber = new TestSubscriber<>(); //TODO: check this in PRO
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
 
-        List<Joke> jokes = mTestSubscriber.getOnNextEvents().get(0);
-
-        assertEquals(2,jokes.get(0).id);
+        verify(mDummyHttpClientMock, times(2)).doRequest();
     }
 
-    private Observable<List<Joke>> observableWithJoke(Joke joke)
+    private Observable observableWithHttpMockAndDelay(int seconds, Scheduler scheduler)
     {
-          return Observable.just(Collections.singletonList(joke));
-    }
-
-    private Observable observableWithDelay(final HttpURLConnection connection,
-                                           int seconds,
-                                           Scheduler scheduler)
-    {
-        return Observable.create(new Observable.OnSubscribe<Void>()
+        return Observable.create(new Observable.OnSubscribe()
         {
             @Override
-            public void call(Subscriber<? super Void> subscriber)
+            public void call(Object o)
             {
-                try
-                {
-                    connection.connect();
-                } catch (IOException e)
-                {
-                }
+                mDummyHttpClientMock.doRequest();
             }
         }).delay(seconds, TimeUnit.SECONDS, scheduler);
+    }
+
+    private Observable observableWithHttpMock()
+    {
+        return Observable.create(new Observable.OnSubscribe()
+        {
+            @Override
+            public void call(Object o)
+            {
+                mDummyHttpClientMock.doRequest();
+            }
+        });
+    }
+
+    class DummyHttpClient
+    {
+        public void doRequest()
+        {
+            //It does nothing. It's just to track network request
+        }
     }
 
 }
