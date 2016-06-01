@@ -9,7 +9,7 @@ import java.util.List;
 
 import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.data.IcndbApiService;
-import it.dindonkey.chucknorrisjokes.data.RetrofitIcndbApiServiceFactory;
+import it.dindonkey.chucknorrisjokes.data.RetrofitIcndbApiService;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import rx.Observable;
@@ -17,7 +17,7 @@ import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
 
-public class RetrofitIcndbApiServiceFactoryTest
+public class RetrofitIcndbApiServiceTest
 {
 
     private MockWebServer mockWebServer;
@@ -30,7 +30,7 @@ public class RetrofitIcndbApiServiceFactoryTest
         mockWebServer = new MockWebServer();
         mockWebServer.start();
 
-        icndbApiService = RetrofitIcndbApiServiceFactory.createService(mockWebServer.url("/"));
+        icndbApiService = RetrofitIcndbApiService.createService(mockWebServer.url("/"));
         mTestSubscriber = new TestSubscriber<>();
     }
 
