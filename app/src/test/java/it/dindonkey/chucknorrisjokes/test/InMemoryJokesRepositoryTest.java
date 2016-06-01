@@ -90,7 +90,7 @@ public class InMemoryJokesRepositoryTest
     }
 
     @Test
-    public void should_unsubsribe_observer_while_request_is_running_if_requested() throws Exception
+    public void should_unsubsribe_observer_while_request_is_running_if_requested()
     {
         when(mIcndbApiServiceMock.jokes())
                 .thenReturn(observableWithHttpMockAndDelay(5, mTestScheduler));
