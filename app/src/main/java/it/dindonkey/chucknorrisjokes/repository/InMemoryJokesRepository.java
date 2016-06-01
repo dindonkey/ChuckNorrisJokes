@@ -45,18 +45,12 @@ public class InMemoryJokesRepository implements JokesRepository
         }
     }
 
-//    @NonNull
-//    private Action0 clearObservableCache()
-//    {
-//        return new Action0()
-//        {
-//            @Override
-//            public void call()
-//            {
-//                mCachedObservable = null;
-//            }
-//        };
-//    }
+    @Override
+    public void clearCache()
+    {
+        mCachedJokes = null;
+        mCachedObservable = null;
+    }
 
     @NonNull
     private Action1<List<Joke>> saveJokes()

@@ -22,6 +22,7 @@ import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,7 +30,7 @@ public class InMemoryJokesRepositoryTest
 {
     public static final Joke TEST_JOKE = new Joke(1, "test joke");
     private InMemoryJokesRepository mInMemoryJokesRepository;
-    private TestSubscriber mTestSubscriber;
+    private TestSubscriber<List<Joke>> mTestSubscriber;
 
     @Mock
     IcndbApiService mIcndbApiServiceMock;
@@ -80,6 +81,22 @@ public class InMemoryJokesRepositoryTest
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
 
         verify(mHttpUrlConnectionMock).connect();
+    }
+
+    @Test
+    public void should_clear_cache_if_requested() throws Exception
+    {
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
+        when(mIcndbApiServiceMock.jokes()).thenReturn(observableWithJoke(new Joke(2,"another test joke")));
+
+        mInMemoryJokesRepository.clearCache();
+
+        mTestSubscriber = new TestSubscriber<>(); //TODO: check this in PRO
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
+
+        List<Joke> jokes = mTestSubscriber.getOnNextEvents().get(0);
+
+        assertEquals(2,jokes.get(0).id);
     }
 
     private Observable<List<Joke>> observableWithJoke(Joke joke)

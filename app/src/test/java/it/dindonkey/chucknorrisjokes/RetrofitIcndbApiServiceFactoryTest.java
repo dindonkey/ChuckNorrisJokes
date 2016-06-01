@@ -22,7 +22,7 @@ public class RetrofitIcndbApiServiceFactoryTest
 
     private MockWebServer mockWebServer;
     private IcndbApiService icndbApiService;
-    private TestSubscriber<List<Joke>> testSubscriber;
+    private TestSubscriber<List<Joke>> mTestSubscriber;
 
     @Before
     public void setUp() throws Exception
@@ -31,7 +31,7 @@ public class RetrofitIcndbApiServiceFactoryTest
         mockWebServer.start();
 
         icndbApiService = RetrofitIcndbApiServiceFactory.createService(mockWebServer.url("/"));
-        testSubscriber = new TestSubscriber<>();
+        mTestSubscriber = new TestSubscriber<>();
     }
 
     @Test
@@ -40,7 +40,7 @@ public class RetrofitIcndbApiServiceFactoryTest
         mockJsonHttpResponse("jokes.json");
         Joke expected = new Joke(1,"Chuck Norris uses ribbed condoms inside out, so he gets the pleasure.");
 
-        List<Joke> jokes = responseFromObservable(icndbApiService.jokes());
+        List<Joke> jokes = observableResults(icndbApiService.jokes());
         Joke actual = jokes.get(0);
 
         assertEquals(expected.id, actual.id);
@@ -55,10 +55,10 @@ public class RetrofitIcndbApiServiceFactoryTest
                 .setBody(getStringFromFile(jsonPath)));
     }
 
-    private List<Joke> responseFromObservable(Observable<List<Joke>> observable)
+    private List<Joke> observableResults(Observable<List<Joke>> observable)
     {
-        observable.subscribe(testSubscriber);
-        return testSubscriber.getOnNextEvents().get(0);
+        observable.subscribe(mTestSubscriber);
+        return mTestSubscriber.getOnNextEvents().get(0);
     }
 
     private String getStringFromFile(String path) throws IOException
