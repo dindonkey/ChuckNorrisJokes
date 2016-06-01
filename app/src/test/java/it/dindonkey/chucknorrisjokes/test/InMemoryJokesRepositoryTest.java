@@ -5,13 +5,16 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import it.dindonkey.chucknorrisjokes.data.IcndbApiService;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
+import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
 import rx.Observable;
 import rx.Scheduler;
+import rx.Subscriber;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
@@ -23,7 +26,7 @@ import static org.mockito.Mockito.when;
 public class InMemoryJokesRepositoryTest
 {
     private InMemoryJokesRepository mInMemoryJokesRepository;
-    private TestSubscriber mTestSubscriber;
+    private TestSubscriber<List<Joke>> mTestSubscriber;
     private TestScheduler mTestScheduler;
 
     @Mock
@@ -37,7 +40,7 @@ public class InMemoryJokesRepositoryTest
         MockitoAnnotations.initMocks(this);
         when(mIcndbApiServiceMock.jokes()).thenReturn(observableWithHttpMock());
 
-        mTestSubscriber = new TestSubscriber();
+        mTestSubscriber = new TestSubscriber<>();
         mTestScheduler = new TestScheduler();
 
         SchedulerManager schedulerManager = new SchedulerManager(Schedulers.immediate(),
@@ -86,24 +89,24 @@ public class InMemoryJokesRepositoryTest
         verify(mDummyHttpClientMock, times(2)).doRequest();
     }
 
-    private Observable observableWithHttpMockAndDelay(int seconds, Scheduler scheduler)
+    private Observable<List<Joke>> observableWithHttpMockAndDelay(int seconds, Scheduler scheduler)
     {
-        return Observable.create(new Observable.OnSubscribe()
+        return Observable.create(new Observable.OnSubscribe<List<Joke>>()
         {
             @Override
-            public void call(Object o)
+            public void call(Subscriber<? super List<Joke>> subscriber)
             {
                 mDummyHttpClientMock.doRequest();
             }
         }).delay(seconds, TimeUnit.SECONDS, scheduler);
     }
 
-    private Observable observableWithHttpMock()
+    private Observable<List<Joke>> observableWithHttpMock()
     {
-        return Observable.create(new Observable.OnSubscribe()
+        return Observable.create(new Observable.OnSubscribe<List<Joke>>()
         {
             @Override
-            public void call(Object o)
+            public void call(Subscriber<? super List<Joke>> subscriber)
             {
                 mDummyHttpClientMock.doRequest();
             }

@@ -13,7 +13,7 @@ public class InMemoryJokesRepository implements JokesRepository
     private List<Joke> mCachedJokes;
     private IcndbApiService mIcndbApiService;
     private SchedulerManager mSchedulerManager;
-    private ConnectableObservable mCachedObservable;
+    private ConnectableObservable<List<Joke>> mCachedObservable;
 
     public InMemoryJokesRepository(IcndbApiService icndbApiService,
                                    SchedulerManager schedulerManager)
@@ -23,7 +23,7 @@ public class InMemoryJokesRepository implements JokesRepository
     }
 
     @Override
-    public void getJokes(Subscriber subscriber)
+    public void getJokes(Subscriber<List<Joke>> subscriber)
     {
         if (null == mCachedJokes)
         {
