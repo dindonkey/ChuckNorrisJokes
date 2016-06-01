@@ -4,7 +4,7 @@ import java.util.List;
 
 import rx.Subscriber;
 
-public interface JokesRepository
+interface JokesRepository
 {
     void getJokes(Subscriber<List<Joke>> subscriber);
 

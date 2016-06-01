@@ -89,6 +89,7 @@ public class InMemoryJokesRepositoryTest
         verify(mDummyHttpClientMock, times(2)).doRequest();
     }
 
+    @SuppressWarnings("SameParameterValue")
     private Observable<List<Joke>> observableWithHttpMockAndDelay(int seconds, Scheduler scheduler)
     {
         return Observable.create(new Observable.OnSubscribe<List<Joke>>()
