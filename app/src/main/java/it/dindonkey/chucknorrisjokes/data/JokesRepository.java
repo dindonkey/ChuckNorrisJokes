@@ -6,7 +6,7 @@ import rx.Subscriber;
 
 interface JokesRepository
 {
-    void getJokes(Subscriber<List<Joke>> subscriber);
+    void jokes(Subscriber<List<Joke>> subscriber);
 
     void clearCache();
 

@@ -12,26 +12,26 @@ import rx.observables.ConnectableObservable;
 public class InMemoryJokesRepository implements JokesRepository
 {
     private List<Joke> mCachedJokes;
-    private final IcndbApiService mIcndbApiService;
+    private final ChuckNorrisApiService mChuckNorrisApiService;
     private final SchedulerManager mSchedulerManager;
     private ConnectableObservable<List<Joke>> mCachedObservable;
     private Subscription mSubscription;
 
-    public InMemoryJokesRepository(IcndbApiService icndbApiService,
+    public InMemoryJokesRepository(ChuckNorrisApiService chuckNorrisApiService,
                                    SchedulerManager schedulerManager)
     {
-        mIcndbApiService = icndbApiService;
+        mChuckNorrisApiService = chuckNorrisApiService;
         mSchedulerManager = schedulerManager;
     }
 
     @Override
-    public void getJokes(Subscriber<List<Joke>> subscriber)
+    public void jokes(Subscriber<List<Joke>> subscriber)
     {
         if (null == mCachedJokes)
         {
             if (null == mCachedObservable)
             {
-                mCachedObservable = mIcndbApiService.jokes()
+                mCachedObservable = mChuckNorrisApiService.jokes()
                         .doOnNext(saveJokes())
                         .subscribeOn(mSchedulerManager.computation())
                         .observeOn(mSchedulerManager.mainThread())

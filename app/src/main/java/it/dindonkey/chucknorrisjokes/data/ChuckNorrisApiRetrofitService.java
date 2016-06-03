@@ -17,11 +17,11 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitIcndbApiService
+public class ChuckNorrisApiRetrofitService
 {
-    private static IcndbApiService mInstance;
+    private static ChuckNorrisApiService mInstance;
 
-    public static IcndbApiService createService(HttpUrl baseUrl)
+    public static ChuckNorrisApiService createService(HttpUrl baseUrl)
     {
         if (null == mInstance)
         {
@@ -32,7 +32,7 @@ public class RetrofitIcndbApiService
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
-            mInstance = retrofit.create(IcndbApiService.class);
+            mInstance = retrofit.create(ChuckNorrisApiService.class);
         }
         return mInstance;
     }

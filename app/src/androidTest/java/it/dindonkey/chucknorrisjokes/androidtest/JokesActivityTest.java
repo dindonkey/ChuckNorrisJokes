@@ -22,7 +22,7 @@ public class JokesActivityTest
 {
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(JokesActivity.class,
-                                                                                         false,
+            false,
             false);
 
     @Test
