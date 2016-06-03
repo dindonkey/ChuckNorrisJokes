@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.util.List;
 
 import it.dindonkey.chucknorrisjokes.data.Joke;
-import it.dindonkey.chucknorrisjokes.data.ChuckNorrisApiService;
-import it.dindonkey.chucknorrisjokes.data.ChuckNorrisApiRetrofitService;
+import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
+import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiRetrofit;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import rx.Observable;
@@ -17,11 +17,11 @@ import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
 
-public class RetrofitChuckNorrisApiServiceTest
+public class ChuckNorrisServiceApiRetrofitTest
 {
 
     private MockWebServer mockWebServer;
-    private ChuckNorrisApiService chuckNorrisApiService;
+    private ChuckNorrisServiceApi chuckNorrisServiceApi;
     private TestSubscriber<List<Joke>> mTestSubscriber;
 
     @Before
@@ -30,7 +30,7 @@ public class RetrofitChuckNorrisApiServiceTest
         mockWebServer = new MockWebServer();
         mockWebServer.start();
 
-        chuckNorrisApiService = ChuckNorrisApiRetrofitService.createService(mockWebServer.url("/"));
+        chuckNorrisServiceApi = ChuckNorrisServiceApiRetrofit.createService(mockWebServer.url("/"));
         mTestSubscriber = new TestSubscriber<>();
     }
 
@@ -40,7 +40,7 @@ public class RetrofitChuckNorrisApiServiceTest
         mockJsonHttpResponse("jokes.json");
         Joke expected = new Joke(1,"Chuck Norris uses ribbed condoms inside out, so he gets the pleasure.");
 
-        List<Joke> jokes = observableResults(chuckNorrisApiService.jokes());
+        List<Joke> jokes = observableResults(chuckNorrisServiceApi.jokes());
         Joke actual = jokes.get(0);
 
         assertEquals(expected.id, actual.id);

@@ -5,7 +5,7 @@ import java.util.List;
 import retrofit2.http.GET;
 import rx.Observable;
 
-public interface ChuckNorrisApiService
+public interface ChuckNorrisServiceApi
 {
     @GET("/")
     Observable<List<Joke>> jokes();

@@ -8,7 +8,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import it.dindonkey.chucknorrisjokes.data.ChuckNorrisApiService;
+import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
@@ -30,7 +30,7 @@ public class InMemoryJokesRepositoryTest
     private TestScheduler mTestScheduler;
 
     @Mock
-    ChuckNorrisApiService mChuckNorrisApiServiceMock;
+    ChuckNorrisServiceApi mChuckNorrisServiceApiMock;
     @Mock
     DummyHttpClient mDummyHttpClientMock;
 
@@ -38,14 +38,14 @@ public class InMemoryJokesRepositoryTest
     public void setUp()
     {
         MockitoAnnotations.initMocks(this);
-        when(mChuckNorrisApiServiceMock.jokes()).thenReturn(observableWithHttpMock());
+        when(mChuckNorrisServiceApiMock.jokes()).thenReturn(observableWithHttpMock());
 
         mTestSubscriber = new TestSubscriber<>();
         mTestScheduler = new TestScheduler();
 
         SchedulerManager schedulerManager = new SchedulerManager(Schedulers.immediate(),
                 Schedulers.immediate());
-        mInMemoryJokesRepository = new InMemoryJokesRepository(mChuckNorrisApiServiceMock,
+        mInMemoryJokesRepository = new InMemoryJokesRepository(mChuckNorrisServiceApiMock,
                 schedulerManager);
     }
 
@@ -79,7 +79,7 @@ public class InMemoryJokesRepositoryTest
     @Test
     public void should_not_do_new_request_if_a_request_is_in_progress()
     {
-        when(mChuckNorrisApiServiceMock.jokes())
+        when(mChuckNorrisServiceApiMock.jokes())
                 .thenReturn(observableWithHttpMockAndDelay(5, mTestScheduler));
 
         mInMemoryJokesRepository.jokes(mTestSubscriber);
@@ -92,7 +92,7 @@ public class InMemoryJokesRepositoryTest
     @Test
     public void should_unsubsribe_observer_while_request_is_running_if_requested()
     {
-        when(mChuckNorrisApiServiceMock.jokes())
+        when(mChuckNorrisServiceApiMock.jokes())
                 .thenReturn(observableWithHttpMockAndDelay(5, mTestScheduler));
 
         mInMemoryJokesRepository.jokes(mTestSubscriber);
