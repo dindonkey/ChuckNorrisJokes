@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes.test;
+package it.dindonkey.chucknorrisjokes.test.data;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes.test;
+package it.dindonkey.chucknorrisjokes.test.data;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
@@ -7,9 +7,9 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiRetrofit;
+import it.dindonkey.chucknorrisjokes.data.Joke;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import rx.Observable;
