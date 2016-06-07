@@ -34,7 +34,8 @@ import static org.mockito.Mockito.verify;
 @RunWith(AndroidJUnit4.class)
 public class JokesActivityTest
 {
-    public static final List<Joke> TEST_JOKES = Collections.singletonList(new Joke(1, "test joke"));
+    private static final List<Joke> TEST_JOKES = Collections.singletonList(new Joke(1,
+            "test joke"));
 
     @Mock
     JokesContract.UserActionsListener mJokesUserActionsListenerMock;
@@ -46,7 +47,7 @@ public class JokesActivityTest
             false);
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         MockitoAnnotations.initMocks(this);
         getApplication().setJokesUserActionsListener(mJokesUserActionsListenerMock);
@@ -61,7 +62,7 @@ public class JokesActivityTest
     }
 
     @Test
-    public void should_refresh_jokes() throws Exception
+    public void should_refresh_jokes()
     {
         launchActivity();
         mActivityRule.getActivity().runOnUiThread(new Runnable()
@@ -77,7 +78,7 @@ public class JokesActivityTest
     }
 
     @Test
-    public void should_load_jokes_on_resume() throws Exception
+    public void should_load_jokes_on_resume()
     {
         launchActivity();
 
