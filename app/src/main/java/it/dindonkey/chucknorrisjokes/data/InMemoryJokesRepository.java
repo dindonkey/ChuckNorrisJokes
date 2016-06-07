@@ -25,7 +25,7 @@ public class InMemoryJokesRepository implements JokesRepository
     }
 
     @Override
-    public void jokes(Subscriber<List<Joke>> subscriber)
+    public void getJokes(Subscriber<List<Joke>> subscriber)
     {
         if (null == mCachedJokes)
         {

@@ -53,7 +53,7 @@ public class InMemoryJokesRepositoryTest
     @Test
     public void should_do_network_request_to_get_jokes()
     {
-        mInMemoryJokesRepository.jokes(mTestSubscriber);
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
 
         verify(mDummyHttpClientMock).doRequest();
     }
@@ -61,8 +61,8 @@ public class InMemoryJokesRepositoryTest
     @Test
     public void should_cache_result_if_previous_request_was_completed()
     {
-        mInMemoryJokesRepository.jokes(mTestSubscriber);
-        mInMemoryJokesRepository.jokes(mTestSubscriber);
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
 
         verify(mDummyHttpClientMock).doRequest();
     }
@@ -70,9 +70,9 @@ public class InMemoryJokesRepositoryTest
     @Test
     public void should_redo_request_if_cache_is_cleared()
     {
-        mInMemoryJokesRepository.jokes(mTestSubscriber);
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
         mInMemoryJokesRepository.clearCache();
-        mInMemoryJokesRepository.jokes(mTestSubscriber);
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
 
         verify(mDummyHttpClientMock, times(2)).doRequest();
     }
@@ -83,9 +83,9 @@ public class InMemoryJokesRepositoryTest
         when(mChuckNorrisServiceApiMock.jokes())
                 .thenReturn(observableWithHttpMockAndDelay(5, mTestScheduler));
 
-        mInMemoryJokesRepository.jokes(mTestSubscriber);
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
         mTestScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
-        mInMemoryJokesRepository.jokes(mTestSubscriber);
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
 
         verify(mDummyHttpClientMock).doRequest();
     }
@@ -96,7 +96,7 @@ public class InMemoryJokesRepositoryTest
         when(mChuckNorrisServiceApiMock.jokes())
                 .thenReturn(observableWithHttpMockAndDelay(5, mTestScheduler));
 
-        mInMemoryJokesRepository.jokes(mTestSubscriber);
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
         mTestScheduler.advanceTimeBy(1, TimeUnit.SECONDS);
         mInMemoryJokesRepository.clearSubscription();
 

@@ -1,3 +1,7 @@
-TODO: Add Presenter and View interface
+TODO: test fragment bindView
+TODO: test fragment unBindView
+TODO: test onloading view
+TODO: test onerror view
+TODO: test e2e show jokes
 TODO: Mock data flavour
 TODO: Use CompositeSubscription

@@ -4,9 +4,9 @@ import java.util.List;
 
 import rx.Subscriber;
 
-interface JokesRepository
+public interface JokesRepository
 {
-    void jokes(Subscriber<List<Joke>> subscriber);
+    void getJokes(Subscriber<List<Joke>> subscriber);
 
     void clearCache();
 
