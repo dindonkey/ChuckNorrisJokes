@@ -2,8 +2,9 @@ package it.dindonkey.chucknorrisjokes.test.data;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class InMemoryJokesRepositoryTest
 {
     private InMemoryJokesRepository mInMemoryJokesRepository;
@@ -37,7 +39,6 @@ public class InMemoryJokesRepositoryTest
     @Before
     public void setUp()
     {
-        MockitoAnnotations.initMocks(this);
         when(mChuckNorrisServiceApiMock.jokes()).thenReturn(observableWithHttpMock());
 
         mTestSubscriber = new TestSubscriber<>();

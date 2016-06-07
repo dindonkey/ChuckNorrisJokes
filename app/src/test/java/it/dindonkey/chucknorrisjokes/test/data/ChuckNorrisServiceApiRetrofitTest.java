@@ -20,17 +20,17 @@ import static org.junit.Assert.assertEquals;
 public class ChuckNorrisServiceApiRetrofitTest
 {
 
-    private MockWebServer mockWebServer;
-    private ChuckNorrisServiceApi chuckNorrisServiceApi;
+    private MockWebServer mMockWebServer;
+    private ChuckNorrisServiceApi mChuckNorrisServiceApi;
     private TestSubscriber<List<Joke>> mTestSubscriber;
 
     @Before
     public void setUp() throws Exception
     {
-        mockWebServer = new MockWebServer();
-        mockWebServer.start();
+        mMockWebServer = new MockWebServer();
+        mMockWebServer.start();
 
-        chuckNorrisServiceApi = ChuckNorrisServiceApiRetrofit.createService(mockWebServer.url("/"));
+        mChuckNorrisServiceApi = ChuckNorrisServiceApiRetrofit.createService(mMockWebServer.url("/"));
         mTestSubscriber = new TestSubscriber<>();
     }
 
@@ -40,7 +40,7 @@ public class ChuckNorrisServiceApiRetrofitTest
         mockJsonHttpResponse("jokes.json");
         Joke expected = new Joke(1,"Chuck Norris uses ribbed condoms inside out, so he gets the pleasure.");
 
-        List<Joke> jokes = observableResults(chuckNorrisServiceApi.jokes());
+        List<Joke> jokes = observableResults(mChuckNorrisServiceApi.jokes());
         Joke actual = jokes.get(0);
 
         assertEquals(expected.id, actual.id);
@@ -50,7 +50,7 @@ public class ChuckNorrisServiceApiRetrofitTest
     @SuppressWarnings("SameParameterValue")
     private void mockJsonHttpResponse(String jsonPath) throws IOException
     {
-        mockWebServer.enqueue(new MockResponse()
+        mMockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(getStringFromFile(jsonPath)));
     }
