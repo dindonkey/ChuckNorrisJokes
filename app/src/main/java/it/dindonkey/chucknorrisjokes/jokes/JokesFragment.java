@@ -14,11 +14,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.dindonkey.chucknorrisjokes.App;
 import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.data.Joke;
 
 public class JokesFragment extends Fragment
 {
+    private JokesContract.UserActionsListener mJokesUserActionsListener;
     private JokesAdapter mJokesAdapter;
 
     public static JokesFragment newInstance()
@@ -31,6 +33,7 @@ public class JokesFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         mJokesAdapter = new JokesAdapter(new ArrayList<Joke>(0));
+        mJokesUserActionsListener = ((App) getActivity().getApplication()).getJokesUserActionsListener();
     }
 
     @Nullable
@@ -47,6 +50,13 @@ public class JokesFragment extends Fragment
         jokesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         return rootView;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        mJokesUserActionsListener.loadJokes();
     }
 
     public void refreshJokes(List<Joke> jokes)
