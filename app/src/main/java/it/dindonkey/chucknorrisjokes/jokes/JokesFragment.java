@@ -35,7 +35,9 @@ public class JokesFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_jokes, container, false);
 
@@ -47,9 +49,14 @@ public class JokesFragment extends Fragment
         return rootView;
     }
 
+    public void refreshJokes(List<Joke> jokes)
+    {
+        mJokesAdapter.refreshData(jokes);
+    }
+
     class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.ViewHolder>
     {
-        private final List<Joke> mJokes;
+        private List<Joke> mJokes;
 
         public JokesAdapter(List<Joke> jokes)
         {
@@ -77,6 +84,12 @@ public class JokesFragment extends Fragment
         public int getItemCount()
         {
             return mJokes.size();
+        }
+
+        public void refreshData(List<Joke> jokes)
+        {
+            mJokes = jokes;
+            notifyDataSetChanged();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder
