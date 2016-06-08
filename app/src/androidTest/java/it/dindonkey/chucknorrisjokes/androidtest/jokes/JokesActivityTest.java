@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes.androidtest;
+package it.dindonkey.chucknorrisjokes.androidtest.jokes;
 
 import android.app.Instrumentation;
 import android.content.Intent;

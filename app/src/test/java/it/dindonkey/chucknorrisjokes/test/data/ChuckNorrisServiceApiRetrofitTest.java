@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 
 public class ChuckNorrisServiceApiRetrofitTest
 {
-
     private MockWebServer mMockWebServer;
     private ChuckNorrisServiceApi mChuckNorrisServiceApi;
     private TestSubscriber<List<Joke>> mTestSubscriber;

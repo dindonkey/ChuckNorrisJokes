@@ -16,18 +16,18 @@ import rx.schedulers.Schedulers;
 public class App extends Application
 {
     private JokesContract.UserActionsListener mJokesUserActionsListener;
-    private SchedulerManager mSchedulerManager;
-    private ChuckNorrisServiceApi mChuckNorrisServiceApi;
-    private JokesRepository mJokesRepository;
 
     @Override
     public void onCreate()
     {
         super.onCreate();
-        mSchedulerManager = new SchedulerManager(Schedulers.io(), AndroidSchedulers.mainThread());
-        mChuckNorrisServiceApi = ChuckNorrisServiceApiRetrofit.createService(HttpUrl.parse("tbd"));
-        mJokesRepository = new InMemoryJokesRepository(mChuckNorrisServiceApi, mSchedulerManager);
-        mJokesUserActionsListener = new JokesPresenter(mJokesRepository);
+        SchedulerManager schedulerManager = new SchedulerManager(Schedulers.io(),
+                AndroidSchedulers.mainThread());
+        ChuckNorrisServiceApi chuckNorrisServiceApi = ChuckNorrisServiceApiRetrofit.createService(
+                HttpUrl.parse("http://tbd"));
+        JokesRepository jokesRepository = new InMemoryJokesRepository(chuckNorrisServiceApi,
+                schedulerManager);
+        mJokesUserActionsListener = new JokesPresenter(jokesRepository);
     }
 
     public JokesContract.UserActionsListener getJokesUserActionsListener()
@@ -37,6 +37,6 @@ public class App extends Application
 
     public void setJokesUserActionsListener(JokesContract.UserActionsListener jokesUserActionsListener)
     {
-        this.mJokesUserActionsListener = jokesUserActionsListener;
+        mJokesUserActionsListener = jokesUserActionsListener;
     }
 }
