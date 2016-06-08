@@ -1,5 +1,6 @@
 TODO: test fragment bindView
 TODO: test fragment unBindView
+TODO: test subscriber error in onnext
 TODO: test onloading view
 TODO: test onerror view
 TODO: test e2e show jokes

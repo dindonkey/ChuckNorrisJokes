@@ -18,7 +18,7 @@ import it.dindonkey.chucknorrisjokes.App;
 import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.data.Joke;
 
-public class JokesFragment extends Fragment
+public class JokesFragment extends Fragment implements JokesContract.View
 {
     private JokesContract.UserActionsListener mJokesUserActionsListener;
     private JokesAdapter mJokesAdapter;
@@ -34,6 +34,7 @@ public class JokesFragment extends Fragment
         super.onCreate(savedInstanceState);
         mJokesAdapter = new JokesAdapter(new ArrayList<Joke>(0));
         mJokesUserActionsListener = ((App) getActivity().getApplication()).getJokesUserActionsListener();
+        mJokesUserActionsListener.bindView(this);
     }
 
     @Nullable
@@ -59,7 +60,8 @@ public class JokesFragment extends Fragment
         mJokesUserActionsListener.loadJokes();
     }
 
-    public void refreshJokes(List<Joke> jokes)
+    @Override
+    public void showJokes(List<Joke> jokes)
     {
         mJokesAdapter.refreshData(jokes);
     }
