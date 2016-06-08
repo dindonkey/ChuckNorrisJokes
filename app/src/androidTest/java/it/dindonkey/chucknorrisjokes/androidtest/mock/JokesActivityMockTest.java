@@ -47,7 +47,6 @@ public class JokesActivityMockTest
             false,
             false);
 
-
     @Mock
     ChuckNorrisServiceApi mChuckNorrisServiceApiMock;
 

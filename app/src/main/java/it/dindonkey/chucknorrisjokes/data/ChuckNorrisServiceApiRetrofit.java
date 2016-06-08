@@ -19,43 +19,43 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChuckNorrisServiceApiRetrofit
 {
-    private static ChuckNorrisServiceApi mInstance;
 
     public static ChuckNorrisServiceApi createService(HttpUrl baseUrl)
     {
-        if (null == mInstance)
-        {
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapterFactory(new ItemTypeAdapterFactory()).create();
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
-            mInstance = retrofit.create(ChuckNorrisServiceApi.class);
-        }
-        return mInstance;
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new ItemTypeAdapterFactory()).create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        return retrofit.create(ChuckNorrisServiceApi.class);
     }
 
     private static class ItemTypeAdapterFactory implements TypeAdapterFactory
     {
 
-        public <T> TypeAdapter<T> create(Gson gson, final TypeToken<T> type) {
+        public <T> TypeAdapter<T> create(Gson gson, final TypeToken<T> type)
+        {
 
             final TypeAdapter<T> delegate = gson.getDelegateAdapter(this, type);
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
 
-            return new TypeAdapter<T>() {
+            return new TypeAdapter<T>()
+            {
 
                 public void write(JsonWriter out, T value) throws IOException
                 {
                     delegate.write(out, value);
                 }
 
-                public T read(JsonReader in) throws IOException {
+                public T read(JsonReader in) throws IOException
+                {
 
                     JsonElement jsonElement = elementAdapter.read(in);
-                    if (jsonElement.isJsonObject()) {
+                    if (jsonElement.isJsonObject())
+                    {
                         JsonObject jsonObject = jsonElement.getAsJsonObject();
                         if (jsonObject.has("value"))
                         {
