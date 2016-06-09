@@ -1,8 +1,6 @@
 package it.dindonkey.chucknorrisjokes.androidtest.jokes;
 
-import android.app.Instrumentation;
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -14,15 +12,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Collections;
-import java.util.List;
-
-import it.dindonkey.chucknorrisjokes.App;
 import it.dindonkey.chucknorrisjokes.R;
-import it.dindonkey.chucknorrisjokes.data.Joke;
+import it.dindonkey.chucknorrisjokes.androidtest.ActivityTestCase;
 import it.dindonkey.chucknorrisjokes.jokes.JokesActivity;
 import it.dindonkey.chucknorrisjokes.jokes.JokesContract;
-import it.dindonkey.chucknorrisjokes.jokes.JokesFragment;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -32,11 +25,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
-public class JokesActivityTest
+public class JokesActivityTest extends ActivityTestCase
 {
-    private static final List<Joke> TEST_JOKES = Collections.singletonList(new Joke(1,
-            "test joke"));
-
     @Mock
     JokesContract.UserActionsListener mJokesUserActionsListenerMock;
 
@@ -56,15 +46,15 @@ public class JokesActivityTest
     @Test
     public void should_bind_view() throws Exception
     {
-        launchActivity();
+        mActivityRule.launchActivity(new Intent());
 
-        verify(mJokesUserActionsListenerMock).bindView(getJokesFragment());
+        verify(mJokesUserActionsListenerMock).bindView(getCurrentFragment(mActivityRule.getActivity()));
     }
 
     @Test
     public void should_show_jokes_list()
     {
-        launchActivity();
+        mActivityRule.launchActivity(new Intent());
 
         onView(withId(R.id.jokes_list)).check(matches(isDisplayed()));
     }
@@ -72,13 +62,14 @@ public class JokesActivityTest
     @Test
     public void should_refresh_jokes()
     {
-        launchActivity();
+        mActivityRule.launchActivity(new Intent());
+
         mActivityRule.getActivity().runOnUiThread(new Runnable()
         {
             @Override
             public void run()
             {
-                getJokesFragment().showJokes(TEST_JOKES);
+                getCurrentFragment(mActivityRule.getActivity()).showJokes(TEST_JOKES);
             }
         });
 
@@ -88,7 +79,7 @@ public class JokesActivityTest
     @Test
     public void should_load_jokes_on_resume()
     {
-        launchActivity();
+        mActivityRule.launchActivity(new Intent());
 
         verify(mJokesUserActionsListenerMock).loadJokes();
     }
@@ -99,21 +90,5 @@ public class JokesActivityTest
         mActivityRule.getActivity().finish();
     }
 
-    private void launchActivity()
-    {
-        mActivityRule.launchActivity(new Intent());
-    }
 
-    private JokesFragment getJokesFragment()
-    {
-        return (JokesFragment) mActivityRule.getActivity()
-                .getSupportFragmentManager()
-                .findFragmentById(R.id.content_frame);
-    }
-
-    private App getApplication()
-    {
-        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-        return (App) instrumentation.getTargetContext().getApplicationContext();
-    }
 }

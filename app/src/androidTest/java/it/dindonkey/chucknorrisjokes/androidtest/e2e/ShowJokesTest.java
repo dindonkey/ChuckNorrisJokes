@@ -1,9 +1,7 @@
 package it.dindonkey.chucknorrisjokes.androidtest.e2e;
 
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -16,8 +14,8 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import it.dindonkey.chucknorrisjokes.App;
 import it.dindonkey.chucknorrisjokes.R;
+import it.dindonkey.chucknorrisjokes.androidtest.ActivityTestCase;
 import it.dindonkey.chucknorrisjokes.androidtest.EspressoExecutor;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiRetrofit;
@@ -39,7 +37,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
-public class ShowJokesTest
+public class ShowJokesTest extends ActivityTestCase
 {
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(
@@ -70,7 +68,7 @@ public class ShowJokesTest
     {
         mockJsonHttpResponse("jokes.json");
 
-        launchActivity();
+        mActivityRule.launchActivity(new Intent());
 
         onView(withId(R.id.joke_text)).check(matches(withText(containsString("ribbed condoms"))));
     }
@@ -103,15 +101,4 @@ public class ShowJokesTest
         return sb.toString();
     }
 
-    private void launchActivity()
-    {
-        mActivityRule.launchActivity(new Intent());
-    }
-
-
-    private App getApplication()
-    {
-        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-        return (App) instrumentation.getTargetContext().getApplicationContext();
-    }
 }

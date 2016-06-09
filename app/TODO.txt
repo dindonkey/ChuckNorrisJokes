@@ -1,3 +1,4 @@
+TODO: refactoring test
 TODO: test fragment bindView
 TODO: test fragment unBindView
 TODO: test subscriber error in onnext

@@ -1,8 +1,6 @@
 package it.dindonkey.chucknorrisjokes.androidtest.mock;
 
-import android.app.Instrumentation;
 import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -16,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Collections;
 import java.util.List;
 
-import it.dindonkey.chucknorrisjokes.App;
+import it.dindonkey.chucknorrisjokes.androidtest.ActivityTestCase;
 import it.dindonkey.chucknorrisjokes.androidtest.EspressoExecutor;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
@@ -36,7 +34,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
-public class JokesActivityMockTest
+public class JokesActivityMockTest extends ActivityTestCase
 {
     private static final List<Joke> TEST_JOKES = Collections.singletonList(new Joke(1,
             "test joke"));
@@ -68,19 +66,9 @@ public class JokesActivityMockTest
     {
         when(mChuckNorrisServiceApiMock.jokes()).thenReturn(Observable.just(TEST_JOKES));
 
-        launchActivity();
+        mActivityRule.launchActivity(new Intent());
 
         onView(withText("test joke")).check(matches(isDisplayed()));
     }
 
-    private void launchActivity()
-    {
-        mActivityRule.launchActivity(new Intent());
-    }
-
-    private App getApplication()
-    {
-        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-        return (App) instrumentation.getTargetContext().getApplicationContext();
-    }
 }
