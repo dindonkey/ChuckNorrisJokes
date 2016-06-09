@@ -25,7 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
-public class JokesActivityTest extends ActivityTestCase
+public class JokesActivityUnitTest extends ActivityTestCase
 {
     @Mock
     JokesContract.UserActionsListener mJokesUserActionsListenerMock;

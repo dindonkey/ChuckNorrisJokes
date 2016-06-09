@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes.androidtest.mock;
+package it.dindonkey.chucknorrisjokes.androidtest.jokes;
 
 import android.content.Intent;
 import android.support.test.rule.ActivityTestRule;

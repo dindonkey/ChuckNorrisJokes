@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes.androidtest.e2e;
+package it.dindonkey.chucknorrisjokes.androidtest.jokes;
 
 import android.content.Context;
 import android.content.Intent;
@@ -37,7 +37,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
-public class ShowJokesTest extends ActivityTestCase
+public class JokesActivityE2ETest extends ActivityTestCase
 {
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(
