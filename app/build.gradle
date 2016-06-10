@@ -19,6 +19,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        String sharedAssets = 'src/sharedTest/assets'
+        test {
+            assets.srcDirs = [sharedAssets]
+            resources.srcDirs = [sharedAssets]
+        }
+
+        androidTest {
+            assets.srcDirs = [sharedAssets]
+        }
+    }
 }
 
 //noinspection GroovyAssignabilityCheck
