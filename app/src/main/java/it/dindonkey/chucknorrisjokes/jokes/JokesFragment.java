@@ -47,8 +47,7 @@ public class JokesFragment extends Fragment implements JokesContract.View
 
         RecyclerView jokesRecyclerView = (RecyclerView) rootView.findViewById(R.id.jokes_list);
         jokesRecyclerView.setAdapter(mJokesAdapter);
-        jokesRecyclerView.setHasFixedSize(true);
-        jokesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        jokesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
         return rootView;
     }
