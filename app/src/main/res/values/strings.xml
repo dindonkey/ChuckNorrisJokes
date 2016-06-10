@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ChuckNorrisJokes</string>
+    <string name="chucknorrisapi_base_url">http://api.icndb.com</string>
 </resources>

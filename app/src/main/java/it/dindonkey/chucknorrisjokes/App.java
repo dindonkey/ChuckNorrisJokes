@@ -24,7 +24,7 @@ public class App extends Application
         SchedulerManager schedulerManager = new SchedulerManager(Schedulers.io(),
                 AndroidSchedulers.mainThread());
         ChuckNorrisServiceApi chuckNorrisServiceApi = ChuckNorrisServiceApiRetrofit.createService(
-                HttpUrl.parse("http://tbd"));
+                HttpUrl.parse(getString(R.string.chucknorrisapi_base_url)));
         JokesRepository jokesRepository = new InMemoryJokesRepository(chuckNorrisServiceApi,
                 schedulerManager);
         mJokesUserActionsListener = new JokesPresenter(jokesRepository);
