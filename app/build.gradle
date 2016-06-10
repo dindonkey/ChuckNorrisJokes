@@ -23,12 +23,15 @@ android {
     sourceSets {
         String sharedAssets = 'src/sharedTest/assets'
         test {
+            java.srcDirs = ['src/test/java', 'src/sharedTest/java']
             assets.srcDirs = [sharedAssets]
             resources.srcDirs = [sharedAssets]
         }
 
         androidTest {
+            java.srcDirs = ['src/androidTest/java', 'src/sharedTest/java']
             assets.srcDirs = [sharedAssets]
+            resources.srcDirs = [sharedAssets]
         }
     }
 }

@@ -11,14 +11,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Collections;
-import java.util.List;
-
 import it.dindonkey.chucknorrisjokes.androidtest.ActivityTestCase;
 import it.dindonkey.chucknorrisjokes.androidtest.EspressoExecutor;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
-import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.data.JokesRepository;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
 import it.dindonkey.chucknorrisjokes.jokes.JokesActivity;
@@ -36,9 +32,6 @@ import static org.mockito.Mockito.when;
 @RunWith(AndroidJUnit4.class)
 public class JokesActivityMockTest extends ActivityTestCase
 {
-    private static final List<Joke> TEST_JOKES = Collections.singletonList(new Joke(1,
-            "test joke"));
-
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(
             JokesActivity.class,
@@ -62,7 +55,7 @@ public class JokesActivityMockTest extends ActivityTestCase
     }
 
     @Test
-    public void should_show_test_joke() throws Exception
+    public void should_show_test_joke()
     {
         when(mChuckNorrisServiceApiMock.jokes()).thenReturn(Observable.just(TEST_JOKES));
 
@@ -70,5 +63,4 @@ public class JokesActivityMockTest extends ActivityTestCase
 
         onView(withText("test joke")).check(matches(isDisplayed()));
     }
-
 }

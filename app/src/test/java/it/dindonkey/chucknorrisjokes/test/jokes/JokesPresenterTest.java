@@ -8,22 +8,20 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.Collections;
 import java.util.List;
 
 import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.data.JokesRepository;
 import it.dindonkey.chucknorrisjokes.jokes.JokesContract;
 import it.dindonkey.chucknorrisjokes.jokes.JokesPresenter;
+import it.dindonkey.chucknorrisjokes.sharedtest.SharedTestCase;
 import rx.Subscriber;
 
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class JokesPresenterTest
+public class JokesPresenterTest extends SharedTestCase
 {
-    private static final List<Joke> TEST_JOKES = Collections.singletonList(new Joke(1,
-            "test joke"));
     private JokesPresenter jokesPresenter;
 
     @Mock
@@ -35,14 +33,14 @@ public class JokesPresenterTest
     ArgumentCaptor<Subscriber<List<Joke>>> mArgumentCaptor;
 
     @Before
-    public void setUp() throws Exception
+    public void setUp()
     {
         jokesPresenter = new JokesPresenter(jokesRepository);
         jokesPresenter.bindView(viewMock);
     }
 
     @Test
-    public void should_load_jokes_from_repository_and_refresh_view() throws Exception
+    public void should_load_jokes_from_repository_and_refresh_view()
     {
         jokesPresenter.loadJokes();
 

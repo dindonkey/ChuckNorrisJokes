@@ -4,19 +4,13 @@ import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
 import android.support.v7.app.AppCompatActivity;
 
-import java.util.Collections;
-import java.util.List;
-
 import it.dindonkey.chucknorrisjokes.App;
 import it.dindonkey.chucknorrisjokes.R;
-import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.jokes.JokesFragment;
+import it.dindonkey.chucknorrisjokes.sharedtest.SharedTestCase;
 
-public class ActivityTestCase
+public class ActivityTestCase extends SharedTestCase
 {
-    protected static final List<Joke> TEST_JOKES = Collections.singletonList(new Joke(1,
-            "test joke"));
-
     protected App getApplication()
     {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();

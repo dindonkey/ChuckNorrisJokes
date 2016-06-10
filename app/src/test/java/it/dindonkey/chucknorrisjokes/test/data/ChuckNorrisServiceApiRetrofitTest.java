@@ -1,6 +1,5 @@
 package it.dindonkey.chucknorrisjokes.test.data;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,16 +9,15 @@ import java.util.List;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiRetrofit;
 import it.dindonkey.chucknorrisjokes.data.Joke;
-import okhttp3.mockwebserver.MockResponse;
+import it.dindonkey.chucknorrisjokes.sharedtest.SharedTestCase;
 import okhttp3.mockwebserver.MockWebServer;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
 
-public class ChuckNorrisServiceApiRetrofitTest
+public class ChuckNorrisServiceApiRetrofitTest extends SharedTestCase
 {
-    private MockWebServer mMockWebServer;
     private ChuckNorrisServiceApi mChuckNorrisServiceApi;
     private TestSubscriber<List<Joke>> mTestSubscriber;
 
@@ -46,22 +44,11 @@ public class ChuckNorrisServiceApiRetrofitTest
         assertEquals(expected.joke, actual.joke);
     }
 
-    @SuppressWarnings("SameParameterValue")
-    private void mockJsonHttpResponse(String jsonPath) throws IOException
-    {
-        mMockWebServer.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody(getStringFromFile(jsonPath)));
-    }
-
     private List<Joke> observableResults(Observable<List<Joke>> observable)
     {
         observable.subscribe(mTestSubscriber);
         return mTestSubscriber.getOnNextEvents().get(0);
     }
 
-    private String getStringFromFile(String path) throws IOException
-    {
-        return IOUtils.toString(getClass().getClassLoader().getResource(path), "UTF-8");
-    }
+
 }
