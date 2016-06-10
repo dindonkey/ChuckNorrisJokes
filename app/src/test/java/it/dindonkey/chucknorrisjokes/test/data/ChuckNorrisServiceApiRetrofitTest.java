@@ -11,6 +11,7 @@ import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiRetrofit;
 import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.sharedtest.SharedTestCase;
 import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
@@ -32,12 +33,21 @@ public class ChuckNorrisServiceApiRetrofitTest extends SharedTestCase
     }
 
     @Test
+    public void should_call_jokes_api_path() throws Exception
+    {
+        mChuckNorrisServiceApi.getJokes().subscribe(mTestSubscriber);
+
+        RecordedRequest request = mMockWebServer.takeRequest();
+        assertEquals("/jokes/", request.getPath());
+    }
+
+    @Test
     public void should_get_jokes_from_json_request() throws IOException
     {
         mockJsonHttpResponse("jokes.json");
         Joke expected = new Joke(1,"Chuck Norris uses ribbed condoms inside out, so he gets the pleasure.");
 
-        List<Joke> jokes = observableResults(mChuckNorrisServiceApi.jokes());
+        List<Joke> jokes = observableResults(mChuckNorrisServiceApi.getJokes());
         Joke actual = jokes.get(0);
 
         assertEquals(expected.id, actual.id);

@@ -31,7 +31,7 @@ public class InMemoryJokesRepository implements JokesRepository
         {
             if (null == mCachedObservable)
             {
-                mCachedObservable = mChuckNorrisServiceApi.jokes()
+                mCachedObservable = mChuckNorrisServiceApi.getJokes()
                         .doOnNext(saveJokes())
                         .subscribeOn(mSchedulerManager.computation())
                         .observeOn(mSchedulerManager.mainThread())

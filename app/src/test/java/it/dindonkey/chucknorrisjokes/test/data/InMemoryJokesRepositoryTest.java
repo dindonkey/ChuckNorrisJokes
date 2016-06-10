@@ -39,7 +39,7 @@ public class InMemoryJokesRepositoryTest
     @Before
     public void setUp()
     {
-        when(mChuckNorrisServiceApiMock.jokes()).thenReturn(observableWithHttpMock());
+        when(mChuckNorrisServiceApiMock.getJokes()).thenReturn(observableWithHttpMock());
 
         mTestSubscriber = new TestSubscriber<>();
         mTestScheduler = new TestScheduler();
@@ -80,7 +80,7 @@ public class InMemoryJokesRepositoryTest
     @Test
     public void should_not_do_new_request_if_a_request_is_in_progress()
     {
-        when(mChuckNorrisServiceApiMock.jokes())
+        when(mChuckNorrisServiceApiMock.getJokes())
                 .thenReturn(observableWithHttpMockAndDelay(5, mTestScheduler));
 
         mInMemoryJokesRepository.getJokes(mTestSubscriber);
@@ -93,7 +93,7 @@ public class InMemoryJokesRepositoryTest
     @Test
     public void should_unsubsribe_observer_while_request_is_running_if_requested()
     {
-        when(mChuckNorrisServiceApiMock.jokes())
+        when(mChuckNorrisServiceApiMock.getJokes())
                 .thenReturn(observableWithHttpMockAndDelay(5, mTestScheduler));
 
         mInMemoryJokesRepository.getJokes(mTestSubscriber);

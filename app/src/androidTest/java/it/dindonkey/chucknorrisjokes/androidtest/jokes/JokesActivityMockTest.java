@@ -57,7 +57,7 @@ public class JokesActivityMockTest extends ActivityTestCase
     @Test
     public void should_show_test_joke()
     {
-        when(mChuckNorrisServiceApiMock.jokes()).thenReturn(Observable.just(TEST_JOKES));
+        when(mChuckNorrisServiceApiMock.getJokes()).thenReturn(Observable.just(TEST_JOKES));
 
         mActivityRule.launchActivity(new Intent());
 
