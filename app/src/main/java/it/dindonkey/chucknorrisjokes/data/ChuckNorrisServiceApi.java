@@ -7,6 +7,6 @@ import rx.Observable;
 
 public interface ChuckNorrisServiceApi
 {
-    @GET("/jokes/")
+    @GET("/jokes/random/10")
     Observable<List<Joke>> getJokes();
 }

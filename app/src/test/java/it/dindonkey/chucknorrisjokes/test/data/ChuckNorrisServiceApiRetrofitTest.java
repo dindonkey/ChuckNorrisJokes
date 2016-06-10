@@ -38,7 +38,7 @@ public class ChuckNorrisServiceApiRetrofitTest extends SharedTestCase
         mChuckNorrisServiceApi.getJokes().subscribe(mTestSubscriber);
 
         RecordedRequest request = mMockWebServer.takeRequest();
-        assertEquals("/jokes/", request.getPath());
+        assertEquals("/jokes/random/10", request.getPath());
     }
 
     @Test
