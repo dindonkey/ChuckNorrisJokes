@@ -9,7 +9,7 @@ import rx.Subscriber;
 public class JokesPresenter implements JokesContract.UserActionsListener
 {
     private JokesContract.View mView;
-    private JokesRepository mJokesRepository;
+    private final JokesRepository mJokesRepository;
 
     public JokesPresenter(JokesRepository jokesRepository)
     {

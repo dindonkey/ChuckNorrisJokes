@@ -44,7 +44,7 @@ public class JokesActivityUnitTest extends ActivityTestCase
     }
 
     @Test
-    public void should_bind_view() throws Exception
+    public void should_bind_view()
     {
         mActivityRule.launchActivity(new Intent());
 
@@ -52,7 +52,7 @@ public class JokesActivityUnitTest extends ActivityTestCase
     }
 
     @Test
-    public void should_unbind_view() throws Exception
+    public void should_unbind_view()
     {
         mActivityRule.launchActivity(new Intent());
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.dindonkey.chucknorrisjokes.data.Joke;
 
+@SuppressWarnings("unused")
 public interface JokesContract
 {
     interface View

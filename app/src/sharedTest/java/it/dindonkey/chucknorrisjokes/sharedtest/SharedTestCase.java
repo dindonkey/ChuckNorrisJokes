@@ -25,7 +25,7 @@ public class SharedTestCase
                 .setBody(getStringFromFile(jsonPath)));
     }
 
-    protected String getStringFromFile(String path) throws IOException
+    private String getStringFromFile(String path) throws IOException
     {
         return IOUtils.toString(getClass().getClassLoader().getResource(path), "UTF-8");
     }
