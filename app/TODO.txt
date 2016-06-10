@@ -1,10 +1,8 @@
-TODO: refactoring test
-TODO: test fragment bindView
-TODO: test fragment unBindView
 TODO: test subscriber error in onnext
+TODO: Dagger 2
 TODO: test onloading view
 TODO: test onerror view
-TODO: test e2e show jokes
-TODO: empty list case
+TODO: leak canary
+TODO: empty jokes list case
 TODO: Mock data flavour
 TODO: Use CompositeSubscription

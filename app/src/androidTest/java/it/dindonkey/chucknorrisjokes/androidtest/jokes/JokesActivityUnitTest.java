@@ -28,7 +28,7 @@ import static org.mockito.Mockito.verify;
 public class JokesActivityUnitTest extends ActivityTestCase
 {
     @Mock
-    JokesContract.UserActionsListener mJokesUserActionsListenerMock;
+    JokesContract.UserActionsListener mJokesPresenterMock;
 
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(
@@ -40,7 +40,7 @@ public class JokesActivityUnitTest extends ActivityTestCase
     public void setUp()
     {
         MockitoAnnotations.initMocks(this);
-        getApplication().setJokesUserActionsListener(mJokesUserActionsListenerMock);
+        getApplication().setJokesUserActionsListener(mJokesPresenterMock);
     }
 
     @Test
@@ -48,7 +48,17 @@ public class JokesActivityUnitTest extends ActivityTestCase
     {
         mActivityRule.launchActivity(new Intent());
 
-        verify(mJokesUserActionsListenerMock).bindView(getCurrentFragment(mActivityRule.getActivity()));
+        verify(mJokesPresenterMock).bindView(getCurrentFragment(mActivityRule.getActivity()));
+    }
+
+    @Test
+    public void should_unbind_view() throws Exception
+    {
+        mActivityRule.launchActivity(new Intent());
+
+        rotateScreen(mActivityRule.getActivity());
+
+        verify(mJokesPresenterMock).unBindView();
     }
 
     @Test
@@ -81,7 +91,7 @@ public class JokesActivityUnitTest extends ActivityTestCase
     {
         mActivityRule.launchActivity(new Intent());
 
-        verify(mJokesUserActionsListenerMock).loadJokes();
+        verify(mJokesPresenterMock).loadJokes();
     }
 
     @After

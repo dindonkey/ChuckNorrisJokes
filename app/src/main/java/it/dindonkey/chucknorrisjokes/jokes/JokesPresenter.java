@@ -23,6 +23,12 @@ public class JokesPresenter implements JokesContract.UserActionsListener
     }
 
     @Override
+    public void unBindView()
+    {
+        mView = null;
+    }
+
+    @Override
     public void loadJokes()
     {
         mJokesRepository.getJokes(new Subscriber<List<Joke>>()

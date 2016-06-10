@@ -15,6 +15,8 @@ public interface JokesContract
     {
         void bindView(View view);
 
+        void unBindView();
+
         void loadJokes();
     }
 }

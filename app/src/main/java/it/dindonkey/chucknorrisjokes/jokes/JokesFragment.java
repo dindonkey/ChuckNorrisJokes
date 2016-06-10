@@ -61,6 +61,13 @@ public class JokesFragment extends Fragment implements JokesContract.View
     }
 
     @Override
+    public void onPause()
+    {
+        super.onPause();
+        mJokesUserActionsListener.unBindView();
+    }
+
+    @Override
     public void showJokes(List<Joke> jokes)
     {
         mJokesAdapter.refreshData(jokes);
