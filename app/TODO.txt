@@ -5,4 +5,5 @@ TODO: test onerror view
 TODO: leak canary
 TODO: empty jokes list case
 TODO: Mock data flavour
+TODO: build gradle structure like google example
 TODO: Use CompositeSubscription
