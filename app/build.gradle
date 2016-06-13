@@ -22,6 +22,9 @@ android {
 
     productFlavors {
         mock {
+            buildConfigField 'int', 'NETWORK_BEHAVIOUR_DELAY', '5'
+            buildConfigField 'int', 'NETWORK_BEHAVIOUR_FAILURE_PERCENT', '0'
+            buildConfigField 'int', 'NETWORK_BEHAVIOUR_VARIANCE_PERCENT', '0'
         }
 
         prod {

@@ -13,6 +13,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import it.dindonkey.chucknorrisjokes.BuildConfig;
 import okhttp3.HttpUrl;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -35,8 +36,9 @@ public class ChuckNorrisServiceApiRetrofit
                 .build();
 
         NetworkBehavior behavior = NetworkBehavior.create();
-        behavior.setFailurePercent(0);
-        behavior.setDelay(5, TimeUnit.SECONDS);
+        behavior.setDelay(BuildConfig.NETWORK_BEHAVIOUR_DELAY, TimeUnit.SECONDS);
+        behavior.setFailurePercent(BuildConfig.NETWORK_BEHAVIOUR_FAILURE_PERCENT);
+        behavior.setVariancePercent(BuildConfig.NETWORK_BEHAVIOUR_VARIANCE_PERCENT);
 
         MockRetrofit mockRetrofit = new MockRetrofit.Builder(retrofit)
                 .networkBehavior(behavior)
