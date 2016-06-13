@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ChuckNorrisJokes</string>
     <string name="chucknorrisapi_base_url">http://api.icndb.com</string>
+    <string name="error_message">Ooops...it seems you\'ve been hit by the fist of Chuck Norris.</string>
 </resources>

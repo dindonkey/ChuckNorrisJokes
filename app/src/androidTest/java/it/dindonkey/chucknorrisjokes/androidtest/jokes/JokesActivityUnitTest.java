@@ -131,6 +131,22 @@ public class JokesActivityUnitTest extends ActivityTestCase
         verify(mJokesPresenterMock).loadJokes();
     }
 
+    @Test
+    public void should_show_error() throws Exception
+    {
+        mActivityRule.launchActivity(new Intent());
+        mActivityRule.getActivity().runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                getCurrentFragment(mActivityRule.getActivity()).showError();
+            }
+        });
+
+        onView(withId(R.id.error_message)).check(matches(isDisplayed()));
+    }
+
     @After
     public void tearDown()
     {

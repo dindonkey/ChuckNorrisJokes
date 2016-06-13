@@ -101,6 +101,19 @@ public class JokesFragment extends Fragment implements JokesContract.View
         }
     }
 
+    @Override
+    public void showError()
+    {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager
+                .beginTransaction();
+        transaction.add(android.R.id.content, ErrorFragment.newInstance(), ErrorFragment.TAG);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        fragmentManager.executePendingTransactions();
+
+    }
+
     class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.ViewHolder>
     {
         private List<Joke> mJokes;
