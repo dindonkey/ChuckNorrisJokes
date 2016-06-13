@@ -6,6 +6,11 @@
               android:gravity="center"
               android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/chuck_8bit"/>
+
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="44dp"
