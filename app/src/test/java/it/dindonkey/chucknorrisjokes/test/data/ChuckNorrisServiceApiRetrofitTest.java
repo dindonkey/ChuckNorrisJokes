@@ -7,17 +7,11 @@ import java.io.IOException;
 import java.util.List;
 
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
-import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiMock;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiRetrofit;
 import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.sharedtest.SharedTestCase;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.mock.BehaviorDelegate;
-import retrofit2.mock.MockRetrofit;
-import retrofit2.mock.NetworkBehavior;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
@@ -58,30 +52,6 @@ public class ChuckNorrisServiceApiRetrofitTest extends SharedTestCase
 
         assertEquals(expected.id, actual.id);
         assertEquals(expected.joke, actual.joke);
-    }
-
-    @Test
-    public void testxxx() throws Exception
-    {
-        NetworkBehavior behavior = NetworkBehavior.create();
-        behavior.setFailurePercent(100);
-
-        MockRetrofit mockRetrofit = new MockRetrofit.Builder(new Retrofit
-                .Builder()
-                .baseUrl("http://example.com")
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build())
-                .networkBehavior(behavior)
-                .build();
-
-        BehaviorDelegate<ChuckNorrisServiceApi> delegate = mockRetrofit.create(ChuckNorrisServiceApi.class);
-
-        ChuckNorrisServiceApiMock chuckNorrisServiceApiMock = new ChuckNorrisServiceApiMock(delegate);
-        List<Joke> jokes = observableResults(chuckNorrisServiceApiMock.getJokes());
-
-        assertEquals("mock joke description", jokes.get(0).joke);
-
-
     }
 
     private List<Joke> observableResults(Observable<List<Joke>> observable)
