@@ -1,9 +1,6 @@
-TODO: test subscriber error in onnext
-TODO: Dagger 2
-TODO: test onloading view
 TODO: test onerror view
 TODO: leak canary
 TODO: empty jokes list case
-TODO: Mock data flavour
+TODO: Dagger 2
 TODO: build gradle structure like google example
 TODO: Use CompositeSubscription

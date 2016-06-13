@@ -31,6 +31,7 @@ public class JokesPresenter implements JokesContract.UserActionsListener
     @Override
     public void loadJokes()
     {
+        mView.showLoading();
         mJokesRepository.getJokes(new Subscriber<List<Joke>>()
         {
             @Override
@@ -49,6 +50,7 @@ public class JokesPresenter implements JokesContract.UserActionsListener
             public void onNext(List<Joke> jokes)
             {
                 mView.showJokes(jokes);
+                mView.hideLoading();
             }
         });
 

@@ -40,6 +40,25 @@ public class JokesPresenterTest extends SharedTestCase
     }
 
     @Test
+    public void shold_show_loading_while_fetching_data() throws Exception
+    {
+        jokesPresenter.loadJokes();
+
+        verify(viewMock).showLoading();
+    }
+
+    @Test
+    public void should_hide_loading_when_data_is_loaded() throws Exception
+    {
+        jokesPresenter.loadJokes();
+
+        verify(jokesRepository).getJokes(mArgumentCaptor.capture());
+        mArgumentCaptor.getValue().onNext(TEST_JOKES);
+
+        verify(viewMock).hideLoading();
+    }
+
+    @Test
     public void should_load_jokes_from_repository_and_refresh_view()
     {
         jokesPresenter.loadJokes();

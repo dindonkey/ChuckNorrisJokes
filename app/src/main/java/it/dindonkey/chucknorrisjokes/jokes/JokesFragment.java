@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -70,6 +72,33 @@ public class JokesFragment extends Fragment implements JokesContract.View
     public void showJokes(List<Joke> jokes)
     {
         mJokesAdapter.refreshData(jokes);
+    }
+
+    @Override
+    public void showLoading()
+    {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager
+                .beginTransaction();
+        transaction.add(android.R.id.content, LoadingFragment.newInstance(), LoadingFragment.TAG);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        fragmentManager.executePendingTransactions();
+    }
+
+    @Override
+    public void hideLoading()
+    {
+        Fragment loadingFragment = getActivity().getSupportFragmentManager()
+                .findFragmentByTag(LoadingFragment.TAG);
+        if (null != loadingFragment)
+        {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.remove(loadingFragment);
+            transaction.commit();
+            fragmentManager.executePendingTransactions();
+        }
     }
 
     class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.ViewHolder>

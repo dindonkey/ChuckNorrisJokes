@@ -18,6 +18,7 @@ import it.dindonkey.chucknorrisjokes.jokes.JokesActivity;
 import it.dindonkey.chucknorrisjokes.jokes.JokesContract;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -62,7 +63,7 @@ public class JokesActivityUnitTest extends ActivityTestCase
     }
 
     @Test
-    public void should_show_jokes_list()
+    public void should_show_jokes_fragment()
     {
         mActivityRule.launchActivity(new Intent());
 
@@ -70,7 +71,43 @@ public class JokesActivityUnitTest extends ActivityTestCase
     }
 
     @Test
-    public void should_refresh_jokes()
+    public void should_show_loading_fragment() throws Exception
+    {
+        mActivityRule.launchActivity(new Intent());
+
+        mActivityRule.getActivity().runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                getCurrentFragment(mActivityRule.getActivity()).showLoading();
+            }
+        });
+
+        onView(withId(R.id.progress_bar)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void should_hide_loading_fragment() throws Exception
+    {
+
+        mActivityRule.launchActivity(new Intent());
+
+        mActivityRule.getActivity().runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                getCurrentFragment(mActivityRule.getActivity()).showLoading();
+                getCurrentFragment(mActivityRule.getActivity()).hideLoading();
+            }
+        });
+
+        onView(withId(R.id.progress_bar)).check(doesNotExist());
+    }
+
+    @Test
+    public void should_show_jokes()
     {
         mActivityRule.launchActivity(new Intent());
 
@@ -87,7 +124,7 @@ public class JokesActivityUnitTest extends ActivityTestCase
     }
 
     @Test
-    public void should_load_jokes_on_resume()
+    public void should_load_jokes_when_activity_starts()
     {
         mActivityRule.launchActivity(new Intent());
 

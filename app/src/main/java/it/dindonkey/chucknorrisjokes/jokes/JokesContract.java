@@ -10,6 +10,10 @@ public interface JokesContract
     interface View
     {
         void showJokes(List<Joke> jokes);
+
+        void showLoading();
+
+        void hideLoading();
     }
 
     interface UserActionsListener
