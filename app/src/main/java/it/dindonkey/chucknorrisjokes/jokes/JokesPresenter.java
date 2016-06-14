@@ -43,7 +43,7 @@ public class JokesPresenter implements JokesContract.UserActionsListener
             @Override
             public void onError(Throwable e)
             {
-
+                mView.showError();
             }
 
             @Override

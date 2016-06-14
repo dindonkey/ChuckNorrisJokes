@@ -68,4 +68,15 @@ public class JokesPresenterTest extends SharedTestCase
 
         verify(viewMock).showJokes(TEST_JOKES);
     }
+
+    @Test
+    public void should_show_error_if_an_error_occours() throws Exception
+    {
+        jokesPresenter.loadJokes();
+
+        verify(jokesRepository).getJokes(mArgumentCaptor.capture());
+        mArgumentCaptor.getValue().onError(new Exception());
+
+        verify(viewMock).showError();
+    }
 }

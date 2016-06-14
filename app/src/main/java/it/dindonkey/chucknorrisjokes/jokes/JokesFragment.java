@@ -81,7 +81,6 @@ public class JokesFragment extends Fragment implements JokesContract.View
         FragmentTransaction transaction = fragmentManager
                 .beginTransaction();
         transaction.add(android.R.id.content, LoadingFragment.newInstance(), LoadingFragment.TAG);
-        transaction.addToBackStack(null);
         transaction.commit();
         fragmentManager.executePendingTransactions();
     }
@@ -108,7 +107,6 @@ public class JokesFragment extends Fragment implements JokesContract.View
         FragmentTransaction transaction = fragmentManager
                 .beginTransaction();
         transaction.add(android.R.id.content, ErrorFragment.newInstance(), ErrorFragment.TAG);
-        transaction.addToBackStack(null);
         transaction.commit();
         fragmentManager.executePendingTransactions();
 
