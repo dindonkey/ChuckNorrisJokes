@@ -1,8 +1,11 @@
 package it.dindonkey.chucknorrisjokes.androidtest.jokes;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.content.ContextCompat;
+import android.widget.ProgressBar;
 
 import org.junit.After;
 import org.junit.Before;
@@ -81,10 +84,12 @@ public class JokesActivityUnitTest extends ActivityTestCase
             public void run()
             {
                 getCurrentFragment(mActivityRule.getActivity()).showLoading();
+                // Espresso has problems with progress bar animation, this is ugly but necessary
+                fixEspressoProgressBarLoop();
             }
         });
 
-        onView(withId(R.id.progress_bar)).check(matches(isDisplayed()));
+        onView(withId(R.id.loading_fragment)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -144,13 +149,23 @@ public class JokesActivityUnitTest extends ActivityTestCase
             }
         });
 
-        onView(withId(R.id.error_message)).check(matches(isDisplayed()));
+        onView(withId(R.id.error_fragment)).check(matches(isDisplayed()));
     }
 
     @After
     public void tearDown()
     {
         mActivityRule.getActivity().finish();
+    }
+
+    private void fixEspressoProgressBarLoop()
+    {
+        ProgressBar progressBar = (ProgressBar) mActivityRule.getActivity()
+                .findViewById(R.id.progress_bar);
+        Drawable notAnimatedDrawable = ContextCompat.getDrawable(mActivityRule.getActivity(),
+                R.drawable.chuck_8bit);
+        progressBar.setIndeterminateDrawable(notAnimatedDrawable);
+
     }
 
 

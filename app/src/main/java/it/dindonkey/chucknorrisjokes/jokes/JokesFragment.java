@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,6 +24,9 @@ public class JokesFragment extends Fragment implements JokesContract.View
     private JokesContract.UserActionsListener mJokesUserActionsListener;
     private JokesAdapter mJokesAdapter;
 
+    private ErrorFragment errorFragment;
+    private LoadingFragment loadingFragment;
+
     public static JokesFragment newInstance()
     {
         return new JokesFragment();
@@ -37,6 +39,8 @@ public class JokesFragment extends Fragment implements JokesContract.View
         mJokesAdapter = new JokesAdapter(new ArrayList<Joke>(0));
         mJokesUserActionsListener = ((App) getActivity().getApplication()).getJokesUserActionsListener();
         mJokesUserActionsListener.bindView(this);
+        loadingFragment = LoadingFragment.newInstance();
+        errorFragment = ErrorFragment.newInstance();
     }
 
     @Nullable
@@ -77,39 +81,33 @@ public class JokesFragment extends Fragment implements JokesContract.View
     @Override
     public void showLoading()
     {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager
-                .beginTransaction();
-        transaction.add(android.R.id.content, LoadingFragment.newInstance(), LoadingFragment.TAG);
-        transaction.commit();
-        fragmentManager.executePendingTransactions();
+        addFragment(loadingFragment);
     }
 
     @Override
     public void hideLoading()
     {
-        Fragment loadingFragment = getActivity().getSupportFragmentManager()
-                .findFragmentByTag(LoadingFragment.TAG);
-        if (null != loadingFragment)
-        {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.remove(loadingFragment);
-            transaction.commit();
-            fragmentManager.executePendingTransactions();
-        }
+        removeFragment(loadingFragment);
     }
 
     @Override
     public void showError()
     {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager
-                .beginTransaction();
-        transaction.add(android.R.id.content, ErrorFragment.newInstance(), ErrorFragment.TAG);
-        transaction.commit();
-        fragmentManager.executePendingTransactions();
+        addFragment(errorFragment);
+    }
 
+    private void addFragment(Fragment fragment)
+    {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(android.R.id.content, fragment).commit();
+        fragmentManager.executePendingTransactions();
+    }
+
+    private void removeFragment(Fragment fragment)
+    {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().remove(fragment).commit();
+        fragmentManager.executePendingTransactions();
     }
 
     class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.ViewHolder>
