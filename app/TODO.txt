@@ -1,7 +1,6 @@
-TODO: test onerror view
-TODO: test back on loading / error
-TODO: test clear subscription
+TODO: retry onerror (rxjava event bus)
 TODO: leak canary
+TODO: test clear subscription
 TODO: empty jokes list case
 TODO: Dagger 2
 TODO: build gradle structure like google example

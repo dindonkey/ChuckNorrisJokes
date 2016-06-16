@@ -18,6 +18,9 @@ import java.util.List;
 import it.dindonkey.chucknorrisjokes.App;
 import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.data.Joke;
+import it.dindonkey.chucknorrisjokes.events.ReloadJokesEvent;
+import rx.Subscription;
+import rx.functions.Action1;
 
 public class JokesFragment extends Fragment implements JokesContract.View
 {
@@ -26,6 +29,7 @@ public class JokesFragment extends Fragment implements JokesContract.View
 
     private ErrorFragment errorFragment;
     private LoadingFragment loadingFragment;
+    private Subscription mReloadEventSubscription;
 
     public static JokesFragment newInstance()
     {
@@ -37,7 +41,7 @@ public class JokesFragment extends Fragment implements JokesContract.View
     {
         super.onCreate(savedInstanceState);
         mJokesAdapter = new JokesAdapter(new ArrayList<Joke>(0));
-        mJokesUserActionsListener = ((App) getActivity().getApplication()).getJokesUserActionsListener();
+        mJokesUserActionsListener = getApplication().getJokesUserActionsListener();
         mJokesUserActionsListener.bindView(this);
         loadingFragment = LoadingFragment.newInstance();
         errorFragment = ErrorFragment.newInstance();
@@ -63,6 +67,21 @@ public class JokesFragment extends Fragment implements JokesContract.View
     {
         super.onResume();
         mJokesUserActionsListener.loadJokes();
+        mReloadEventSubscription = getApplication()
+                .getRxBus()
+                .register(ReloadJokesEvent.class, new Action1<ReloadJokesEvent>()
+                {
+                    @Override
+                    public void call(ReloadJokesEvent reloadJokesEvent)
+                    {
+                        mJokesUserActionsListener.loadJokes();
+                    }
+                });
+    }
+
+    private App getApplication()
+    {
+        return (App) getActivity().getApplication();
     }
 
     @Override
@@ -70,6 +89,10 @@ public class JokesFragment extends Fragment implements JokesContract.View
     {
         super.onPause();
         mJokesUserActionsListener.unBindView();
+        if (null != mReloadEventSubscription)
+        {
+            mReloadEventSubscription.unsubscribe();
+        }
     }
 
     @Override

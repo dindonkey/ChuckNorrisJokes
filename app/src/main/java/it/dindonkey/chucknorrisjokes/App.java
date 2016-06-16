@@ -7,6 +7,7 @@ import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiRetrofit;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.data.JokesRepository;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
+import it.dindonkey.chucknorrisjokes.events.RxBus;
 import it.dindonkey.chucknorrisjokes.jokes.JokesContract;
 import it.dindonkey.chucknorrisjokes.jokes.JokesPresenter;
 import okhttp3.HttpUrl;
@@ -16,6 +17,7 @@ import rx.schedulers.Schedulers;
 public class App extends Application
 {
     private JokesContract.UserActionsListener mJokesUserActionsListener;
+    private RxBus mRxBus;
 
     @Override
     public void onCreate()
@@ -28,6 +30,7 @@ public class App extends Application
         JokesRepository jokesRepository = new InMemoryJokesRepository(chuckNorrisServiceApi,
                 schedulerManager);
         mJokesUserActionsListener = new JokesPresenter(jokesRepository);
+        mRxBus = new RxBus();
     }
 
     public JokesContract.UserActionsListener getJokesUserActionsListener()
@@ -38,5 +41,15 @@ public class App extends Application
     public void setJokesUserActionsListener(JokesContract.UserActionsListener jokesUserActionsListener)
     {
         mJokesUserActionsListener = jokesUserActionsListener;
+    }
+
+    public RxBus getRxBus()
+    {
+        return mRxBus;
+    }
+
+    public void setRxBus(RxBus rxBus)
+    {
+        mRxBus = rxBus;
     }
 }

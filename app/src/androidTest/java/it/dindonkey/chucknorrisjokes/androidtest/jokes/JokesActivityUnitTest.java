@@ -17,8 +17,11 @@ import org.mockito.MockitoAnnotations;
 
 import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.androidtest.ActivityTestCase;
+import it.dindonkey.chucknorrisjokes.events.ReloadJokesEvent;
+import it.dindonkey.chucknorrisjokes.events.RxBus;
 import it.dindonkey.chucknorrisjokes.jokes.JokesActivity;
 import it.dindonkey.chucknorrisjokes.jokes.JokesContract;
+import rx.functions.Action1;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -26,6 +29,9 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
@@ -33,6 +39,8 @@ public class JokesActivityUnitTest extends ActivityTestCase
 {
     @Mock
     JokesContract.UserActionsListener mJokesPresenterMock;
+    @Mock
+    RxBus mRxBusMock;
 
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(
@@ -150,6 +158,25 @@ public class JokesActivityUnitTest extends ActivityTestCase
         });
 
         onView(withId(R.id.error_fragment)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void should_register_for_reload_event() throws Exception
+    {
+        getApplication().setRxBus(mRxBusMock);
+        mActivityRule.launchActivity(new Intent());
+
+        verify(mRxBusMock).register(eq(ReloadJokesEvent.class), any(Action1.class));
+    }
+
+    @Test
+    public void should_reload_jokes_if_reload_event_is_received() throws Exception
+    {
+        mActivityRule.launchActivity(new Intent());
+
+        getApplication().getRxBus().post(new ReloadJokesEvent());
+
+        verify(mJokesPresenterMock, times(2)).loadJokes();
     }
 
     @After
