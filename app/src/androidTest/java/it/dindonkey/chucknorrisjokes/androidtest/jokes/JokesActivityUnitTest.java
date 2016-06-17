@@ -35,7 +35,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
-public class JokesAppActivityUnitTest extends AppActivityTestCase
+public class JokesActivityUnitTest extends AppActivityTestCase
 {
     @Mock
     JokesContract.UserActionsListener mJokesPresenterMock;

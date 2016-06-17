@@ -1,4 +1,4 @@
-TODO: retry onerror (rxjava event bus)
+TODO: retry onerror (rxjava event bus), test repository on error clear cache
 TODO: leak canary
 TODO: test clear subscription
 TODO: empty jokes list case

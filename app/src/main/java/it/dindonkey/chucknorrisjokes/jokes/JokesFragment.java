@@ -104,32 +104,34 @@ public class JokesFragment extends Fragment implements JokesContract.View
     @Override
     public void showLoading()
     {
-        addFragment(loadingFragment);
+        replaceTopFragment(loadingFragment);
     }
 
     @Override
     public void hideLoading()
     {
-        removeFragment(loadingFragment);
+        removeTopFragment();
     }
 
     @Override
     public void showError()
     {
-        addFragment(errorFragment);
+        replaceTopFragment(errorFragment);
     }
 
-    private void addFragment(Fragment fragment)
+    private void replaceTopFragment(Fragment fragment)
     {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(android.R.id.content, fragment).commit();
+        fragmentManager.beginTransaction().replace(android.R.id.content, fragment).commit();
         fragmentManager.executePendingTransactions();
     }
 
-    private void removeFragment(Fragment fragment)
+    private void removeTopFragment()
     {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().remove(fragment).commit();
+        fragmentManager.beginTransaction()
+                .remove(fragmentManager.findFragmentById(android.R.id.content))
+                .commit();
         fragmentManager.executePendingTransactions();
     }
 

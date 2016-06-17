@@ -33,6 +33,7 @@ public class InMemoryJokesRepository implements JokesRepository
             {
                 mCachedObservable = mChuckNorrisServiceApi.getJokes()
                         .doOnNext(saveJokes())
+                        .doOnError(clearCacheOnError())
                         .subscribeOn(mSchedulerManager.computation())
                         .observeOn(mSchedulerManager.mainThread())
                         .replay();
@@ -44,6 +45,19 @@ public class InMemoryJokesRepository implements JokesRepository
             subscriber.onNext(mCachedJokes);
             subscriber.onCompleted();
         }
+    }
+
+    @NonNull
+    private Action1<Throwable> clearCacheOnError()
+    {
+        return new Action1<Throwable>()
+        {
+            @Override
+            public void call(Throwable throwable)
+            {
+                clearCache();
+            }
+        };
     }
 
     @Override
