@@ -12,7 +12,7 @@ import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.jokes.JokesFragment;
 import it.dindonkey.chucknorrisjokes.sharedtest.SharedTestCase;
 
-public class ActivityTestCase extends SharedTestCase
+public class AppActivityTestCase extends SharedTestCase
 {
     protected App getApplication()
     {

@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import it.dindonkey.chucknorrisjokes.R;
-import it.dindonkey.chucknorrisjokes.androidtest.ActivityTestCase;
+import it.dindonkey.chucknorrisjokes.androidtest.AppActivityTestCase;
 import it.dindonkey.chucknorrisjokes.events.ReloadJokesEvent;
 import it.dindonkey.chucknorrisjokes.events.RxBus;
 import it.dindonkey.chucknorrisjokes.jokes.JokesActivity;
@@ -35,7 +35,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
-public class JokesActivityUnitTest extends ActivityTestCase
+public class JokesAppActivityUnitTest extends AppActivityTestCase
 {
     @Mock
     JokesContract.UserActionsListener mJokesPresenterMock;

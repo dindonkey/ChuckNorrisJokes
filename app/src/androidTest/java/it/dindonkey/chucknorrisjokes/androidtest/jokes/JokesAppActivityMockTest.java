@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import it.dindonkey.chucknorrisjokes.androidtest.ActivityTestCase;
+import it.dindonkey.chucknorrisjokes.androidtest.AppActivityTestCase;
 import it.dindonkey.chucknorrisjokes.androidtest.EspressoExecutor;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
@@ -30,7 +30,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
-public class JokesActivityMockTest extends ActivityTestCase
+public class JokesAppActivityMockTest extends AppActivityTestCase
 {
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(
