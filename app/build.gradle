@@ -89,5 +89,19 @@ dependencies {
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
 
+    //noinspection GroovyAssignabilityCheck
+    task testJVM(dependsOn: 'testProdDebugUnitTest',
+            description: 'Runs JVM unit test',
+            group: 'Verification')
+
+    //noinspection GroovyAssignabilityCheck
+    task testAndroid(dependsOn: 'connectedProdDebugAndroidTest',
+            description: 'Runs Android unit test',
+            group: 'Verification')
+
+    //noinspection GroovyAssignabilityCheck
+    task testAll(dependsOn: ['testJVM', 'testAndroid'],
+            description: 'Runs both JVM and Android unit test',
+            group: 'Verification')
 
 }
