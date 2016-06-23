@@ -52,6 +52,7 @@ public class JokesActivityUnitTest extends AppActivityTestCase
     public void setUp()
     {
         MockitoAnnotations.initMocks(this);
+        getApplication().setRxBus(new RxBus());
         getApplication().setJokesUserActionsListener(mJokesPresenterMock);
     }
 
