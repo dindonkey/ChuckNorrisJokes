@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "it.dindonkey.chucknorrisjokes"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
 
@@ -23,7 +23,7 @@ android {
     productFlavors {
         mock {
             buildConfigField 'int', 'NETWORK_BEHAVIOUR_DELAY', '5'
-            buildConfigField 'int', 'NETWORK_BEHAVIOUR_FAILURE_PERCENT', '100'
+            buildConfigField 'int', 'NETWORK_BEHAVIOUR_FAILURE_PERCENT', '50'
             buildConfigField 'int', 'NETWORK_BEHAVIOUR_VARIANCE_PERCENT', '0'
         }
 
@@ -71,7 +71,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
 
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.5'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
@@ -80,8 +80,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit-mock:2.0.2'
     compile 'com.squareup.okhttp3:mockwebserver:3.3.0'
     compile 'commons-io:commons-io:2.5'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:24.0.0'
+    compile 'com.android.support:cardview-v7:24.0.0'
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'

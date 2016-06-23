@@ -192,6 +192,7 @@ public class JokesActivityUnitTest extends AppActivityTestCase
                 .findViewById(R.id.progress_bar);
         Drawable notAnimatedDrawable = ContextCompat.getDrawable(mActivityRule.getActivity(),
                 R.drawable.chuck_8bit);
+        assert progressBar != null;
         progressBar.setIndeterminateDrawable(notAnimatedDrawable);
 
     }

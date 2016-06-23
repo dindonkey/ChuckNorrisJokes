@@ -19,7 +19,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/chuck_8bit"/>
+            android:src="@drawable/chuck_8bit"
+            android:contentDescription="@string/chuck"/>
 
         <TextView
             android:id="@+id/error_message"

@@ -6,14 +6,11 @@ import java.util.List;
 import retrofit2.mock.BehaviorDelegate;
 import rx.Observable;
 
-/**
- * Created by simonecaldon on 12/06/16.
- */
 public class ChuckNorrisServiceApiMock implements ChuckNorrisServiceApi
 {
 
-    private BehaviorDelegate<ChuckNorrisServiceApi> mDelegate;
-    private List<Joke> jokes;
+    private final BehaviorDelegate<ChuckNorrisServiceApi> mDelegate;
+    private final List<Joke> jokes;
 
     public ChuckNorrisServiceApiMock(BehaviorDelegate<ChuckNorrisServiceApi> delegate)
     {
