@@ -2,6 +2,8 @@ package it.dindonkey.chucknorrisjokes;
 
 import android.app.Application;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiRetrofit;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
@@ -31,6 +33,11 @@ public class App extends Application
                 schedulerManager);
         mJokesUserActionsListener = new JokesPresenter(jokesRepository);
         mRxBus = new RxBus();
+
+        if (BuildConfig.DEBUG)
+        {
+            LeakCanary.install(this);
+        }
     }
 
     public JokesContract.UserActionsListener getJokesUserActionsListener()

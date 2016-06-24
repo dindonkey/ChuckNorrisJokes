@@ -129,10 +129,14 @@ public class JokesFragment extends Fragment implements JokesContract.View
     private void removeTopFragment()
     {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .remove(fragmentManager.findFragmentById(android.R.id.content))
-                .commit();
-        fragmentManager.executePendingTransactions();
+        Fragment topFragment = fragmentManager.findFragmentById(android.R.id.content);
+        if (null != topFragment)
+        {
+            fragmentManager.beginTransaction()
+                    .remove(topFragment)
+                    .commit();
+            fragmentManager.executePendingTransactions();
+        }
     }
 
     class JokesAdapter extends RecyclerView.Adapter<JokesAdapter.ViewHolder>

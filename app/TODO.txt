@@ -1,5 +1,5 @@
-TODO: retry onerror (rxjava event bus), test repository on error clear cache
-TODO: leak canary
+TODO: test repository on error clear cache
+TODO: rotation onerror fragment should not resubmit request
 TODO: test clear subscription
 TODO: empty jokes list case
 TODO: Dagger 2
