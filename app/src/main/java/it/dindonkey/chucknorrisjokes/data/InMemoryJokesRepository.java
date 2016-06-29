@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import rx.Subscriber;
+import rx.Observer;
 import rx.Subscription;
 import rx.functions.Action1;
 import rx.observables.ConnectableObservable;
@@ -25,7 +25,7 @@ public class InMemoryJokesRepository implements JokesRepository
     }
 
     @Override
-    public void getJokes(Subscriber<List<Joke>> subscriber)
+    public void getJokes(Observer<List<Joke>> observer)
     {
         if (null == mCachedJokes)
         {
@@ -39,11 +39,11 @@ public class InMemoryJokesRepository implements JokesRepository
                         .replay();
                 mCachedObservable.connect();
             }
-            mSubscription = mCachedObservable.subscribe(subscriber);
+            mSubscription = mCachedObservable.subscribe(observer);
         } else
         {
-            subscriber.onNext(mCachedJokes);
-            subscriber.onCompleted();
+            observer.onNext(mCachedJokes);
+            observer.onCompleted();
         }
     }
 

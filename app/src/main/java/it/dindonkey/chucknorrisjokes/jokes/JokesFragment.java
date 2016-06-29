@@ -99,7 +99,7 @@ public class JokesFragment extends Fragment implements JokesContract.View
                     @Override
                     public void call(ReloadJokesEvent reloadJokesEvent)
                     {
-                        mUserActionsListener.loadJokes(false);
+                        mUserActionsListener.loadJokes(true);
                     }
                 });
     }
@@ -129,7 +129,10 @@ public class JokesFragment extends Fragment implements JokesContract.View
     @Override
     public void showLoading()
     {
-        replaceTopFragment(loadingFragment);
+        if (!mSwipeRefreshLayout.isRefreshing())
+        {
+            replaceTopFragment(loadingFragment);
+        }
     }
 
     @Override
@@ -143,6 +146,7 @@ public class JokesFragment extends Fragment implements JokesContract.View
     public void showError()
     {
         replaceTopFragment(errorFragment);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private void replaceTopFragment(Fragment fragment)

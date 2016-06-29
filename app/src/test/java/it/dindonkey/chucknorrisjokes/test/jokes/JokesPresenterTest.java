@@ -15,7 +15,7 @@ import it.dindonkey.chucknorrisjokes.data.JokesRepository;
 import it.dindonkey.chucknorrisjokes.jokes.JokesContract;
 import it.dindonkey.chucknorrisjokes.jokes.JokesPresenter;
 import it.dindonkey.chucknorrisjokes.sharedtest.SharedTestCase;
-import rx.Subscriber;
+import rx.Observer;
 
 import static org.mockito.Mockito.verify;
 
@@ -30,7 +30,7 @@ public class JokesPresenterTest extends SharedTestCase
     JokesRepository mJokesRepositoryMock;
 
     @Captor
-    ArgumentCaptor<Subscriber<List<Joke>>> mArgumentCaptor;
+    ArgumentCaptor<Observer<List<Joke>>> mArgumentCaptor;
 
     @Before
     public void setUp()
