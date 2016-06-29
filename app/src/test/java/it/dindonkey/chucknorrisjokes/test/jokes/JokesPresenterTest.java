@@ -22,12 +22,12 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class JokesPresenterTest extends SharedTestCase
 {
-    private JokesPresenter jokesPresenter;
+    private JokesPresenter mJokesPresenter;
 
     @Mock
-    JokesContract.View viewMock;
+    JokesContract.View mViewMock;
     @Mock
-    JokesRepository jokesRepository;
+    JokesRepository mJokesRepositoryMock;
 
     @Captor
     ArgumentCaptor<Subscriber<List<Joke>>> mArgumentCaptor;
@@ -35,48 +35,57 @@ public class JokesPresenterTest extends SharedTestCase
     @Before
     public void setUp()
     {
-        jokesPresenter = new JokesPresenter(jokesRepository);
-        jokesPresenter.bindView(viewMock);
+        mJokesPresenter = new JokesPresenter(mJokesRepositoryMock);
+        mJokesPresenter.bindView(mViewMock);
     }
 
     @Test
     public void shold_show_loading_while_fetching_data() throws Exception
     {
-        jokesPresenter.loadJokes();
+        mJokesPresenter.loadJokes(false);
 
-        verify(viewMock).showLoading();
+        verify(mViewMock).showLoading();
     }
 
     @Test
     public void should_hide_loading_when_data_is_loaded() throws Exception
     {
-        jokesPresenter.loadJokes();
+        mJokesPresenter.loadJokes(false);
 
-        verify(jokesRepository).getJokes(mArgumentCaptor.capture());
+        verify(mJokesRepositoryMock).getJokes(mArgumentCaptor.capture());
         mArgumentCaptor.getValue().onNext(TEST_JOKES);
 
-        verify(viewMock).hideLoading();
+        verify(mViewMock).hideLoading();
     }
 
     @Test
     public void should_load_jokes_from_repository_and_refresh_view()
     {
-        jokesPresenter.loadJokes();
+        mJokesPresenter.loadJokes(false);
 
-        verify(jokesRepository).getJokes(mArgumentCaptor.capture());
+        verify(mJokesRepositoryMock).getJokes(mArgumentCaptor.capture());
         mArgumentCaptor.getValue().onNext(TEST_JOKES);
 
-        verify(viewMock).showJokes(TEST_JOKES);
+        verify(mViewMock).showJokes(TEST_JOKES);
     }
 
     @Test
     public void should_show_error_if_an_error_occours() throws Exception
     {
-        jokesPresenter.loadJokes();
+        mJokesPresenter.loadJokes(false);
 
-        verify(jokesRepository).getJokes(mArgumentCaptor.capture());
+        verify(mJokesRepositoryMock).getJokes(mArgumentCaptor.capture());
         mArgumentCaptor.getValue().onError(new Exception());
 
-        verify(viewMock).showError();
+        verify(mViewMock).showError();
+    }
+
+    @Test
+    public void should_clear_cache_if_requested() throws Exception
+    {
+        mJokesPresenter.loadJokes(true);
+
+        verify(mJokesRepositoryMock).clearCache();
+
     }
 }

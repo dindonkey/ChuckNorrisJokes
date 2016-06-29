@@ -29,9 +29,15 @@ public class JokesPresenter implements JokesContract.UserActionsListener
     }
 
     @Override
-    public void loadJokes()
+    public void loadJokes(boolean refreshData)
     {
-        mView.showLoading();
+        if (refreshData)
+        {
+            mJokesRepository.clearCache();
+        } else
+        {
+            mView.showLoading();
+        }
         mJokesRepository.getJokes(new Subscriber<List<Joke>>()
         {
             @Override

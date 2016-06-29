@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,12 +26,13 @@ import rx.functions.Action1;
 
 public class JokesFragment extends Fragment implements JokesContract.View
 {
-    private JokesContract.UserActionsListener mJokesUserActionsListener;
+    private JokesContract.UserActionsListener mUserActionsListener;
     private JokesAdapter mJokesAdapter;
 
     private ErrorFragment errorFragment;
     private LoadingFragment loadingFragment;
     private Subscription mReloadEventSubscription;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static JokesFragment newInstance()
     {
@@ -41,8 +44,8 @@ public class JokesFragment extends Fragment implements JokesContract.View
     {
         super.onCreate(savedInstanceState);
         mJokesAdapter = new JokesAdapter(new ArrayList<Joke>(0));
-        mJokesUserActionsListener = getApplication().getJokesUserActionsListener();
-        mJokesUserActionsListener.bindView(this);
+        mUserActionsListener = getApplication().getJokesUserActionsListener();
+        mUserActionsListener.bindView(this);
         loadingFragment = LoadingFragment.newInstance();
         errorFragment = ErrorFragment.newInstance();
     }
@@ -54,19 +57,41 @@ public class JokesFragment extends Fragment implements JokesContract.View
                              Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_jokes, container, false);
+        configureJokesRecycleView(rootView);
+        configureSwipeRefreshLayout(rootView);
 
+        return rootView;
+    }
+
+    private void configureJokesRecycleView(View rootView)
+    {
         RecyclerView jokesRecyclerView = (RecyclerView) rootView.findViewById(R.id.jokes_list);
         jokesRecyclerView.setAdapter(mJokesAdapter);
         jokesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+    }
 
-        return rootView;
+    private void configureSwipeRefreshLayout(View rootView)
+    {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.refresh_layout);
+        mSwipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+                ContextCompat.getColor(getActivity(), R.color.colorAccent),
+                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                mUserActionsListener.loadJokes(true);
+            }
+        });
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        mJokesUserActionsListener.loadJokes();
+        mUserActionsListener.loadJokes(false);
         mReloadEventSubscription = getApplication()
                 .getRxBus()
                 .register(ReloadJokesEvent.class, new Action1<ReloadJokesEvent>()
@@ -74,7 +99,7 @@ public class JokesFragment extends Fragment implements JokesContract.View
                     @Override
                     public void call(ReloadJokesEvent reloadJokesEvent)
                     {
-                        mJokesUserActionsListener.loadJokes();
+                        mUserActionsListener.loadJokes(false);
                     }
                 });
     }
@@ -88,7 +113,7 @@ public class JokesFragment extends Fragment implements JokesContract.View
     public void onPause()
     {
         super.onPause();
-        mJokesUserActionsListener.unBindView();
+        mUserActionsListener.unBindView();
         if (null != mReloadEventSubscription)
         {
             mReloadEventSubscription.unsubscribe();
@@ -111,6 +136,7 @@ public class JokesFragment extends Fragment implements JokesContract.View
     public void hideLoading()
     {
         removeTopFragment();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

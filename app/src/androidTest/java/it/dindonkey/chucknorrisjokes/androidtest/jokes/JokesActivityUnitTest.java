@@ -142,7 +142,7 @@ public class JokesActivityUnitTest extends AppActivityTestCase
     {
         mActivityRule.launchActivity(new Intent());
 
-        verify(mJokesPresenterMock).loadJokes();
+        verify(mJokesPresenterMock).loadJokes(false);
     }
 
     @Test
@@ -177,7 +177,7 @@ public class JokesActivityUnitTest extends AppActivityTestCase
 
         getApplication().getRxBus().post(new ReloadJokesEvent());
 
-        verify(mJokesPresenterMock, times(2)).loadJokes();
+        verify(mJokesPresenterMock, times(2)).loadJokes(false);
     }
 
     @After
