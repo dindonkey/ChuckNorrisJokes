@@ -18,11 +18,17 @@ public class SharedTestCase
     protected MockWebServer mMockWebServer;
 
     @SuppressWarnings("SameParameterValue")
-    protected void mockJsonHttpResponse(String jsonPath) throws IOException
+    protected void enqueueJsonHttpResponse(String jsonPath) throws IOException
     {
         mMockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setBody(getStringFromFile(jsonPath)));
+    }
+
+    protected void enqueueErrorHttpResponse() throws IOException
+    {
+        mMockWebServer.enqueue(new MockResponse()
+                .setResponseCode(404));
     }
 
     private String getStringFromFile(String path) throws IOException

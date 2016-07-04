@@ -24,7 +24,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
@@ -55,13 +57,26 @@ public class JokesAppActivityE2ETest extends AppActivityTestCase
     }
 
     @Test
-    public void show_jokes() throws Exception
+    public void should_load_data_from_network_and_show_jokes() throws Exception
     {
-        mockJsonHttpResponse("jokes.json");
+        enqueueJsonHttpResponse("jokes.json");
 
         mActivityRule.launchActivity(new Intent());
 
         onView(withId(R.id.joke_text)).check(matches(withText(containsString("ribbed condoms"))));
     }
 
+    @Test
+    public void reload_jokes_if_an_error_occours() throws Exception
+    {
+        enqueueErrorHttpResponse();
+        enqueueJsonHttpResponse("jokes.json");
+
+        mActivityRule.launchActivity(new Intent());
+
+        onView(withId(R.id.error_fragment)).check(matches(isDisplayed()));
+        onView(withId(R.id.retry_button)).perform(click());
+        onView(withId(R.id.joke_text)).check(matches(withText(containsString("ribbed condoms"))));
+
+    }
 }
