@@ -4,6 +4,7 @@ public class Joke
 {
     public final int id;
     public final String joke;
+    public String gifUrl;
 
     @SuppressWarnings("SameParameterValue")
     public Joke(int id, String joke)
