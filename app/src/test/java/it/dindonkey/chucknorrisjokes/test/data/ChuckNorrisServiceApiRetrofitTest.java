@@ -42,7 +42,7 @@ public class ChuckNorrisServiceApiRetrofitTest extends SharedTestCase
     }
 
     @Test
-    public void should_get_jokes_from_json_request() throws IOException
+    public void should_get_jokes_from_json_response() throws IOException
     {
         enqueueJsonHttpResponse("jokes.json");
         Joke expected = new Joke(1, "Chuck Norris uses ribbed condoms inside out, so he gets the pleasure.");

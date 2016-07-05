@@ -3,6 +3,8 @@ package it.dindonkey.chucknorrisjokes.test.data;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import it.dindonkey.chucknorrisjokes.data.GiphyGif;
 import it.dindonkey.chucknorrisjokes.data.GiphyServiceApi;
 import it.dindonkey.chucknorrisjokes.data.GiphyServiceApiRetrofit;
@@ -35,5 +37,17 @@ public class GiphyServiceApiRetrofitTest extends SharedTestCase
 
         RecordedRequest request = mMockWebServer.takeRequest();
         assertEquals("/v1/gifs/random?api_key=API_KEY&tag=TAG", request.getPath());
+    }
+
+    @Test
+    public void should_get_gif_url_from_json_response() throws IOException
+    {
+        enqueueJsonHttpResponse("giphy.json");
+        GiphyGif expected = new GiphyGif("http://media0.giphy.com/media/EjTG4LTO1Zqik/200_d.gif");
+
+        mGiphyServiceApi.getRandomGif("foo","bar").subscribe(mTestSubscriber);
+        GiphyGif actual = mTestSubscriber.getOnNextEvents().get(0);
+
+        assertEquals(expected.url, actual.url);
     }
 }
