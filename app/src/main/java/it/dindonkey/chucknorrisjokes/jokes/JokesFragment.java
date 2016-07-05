@@ -12,7 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,6 +196,14 @@ public class JokesFragment extends Fragment implements JokesContract.View
         {
             Joke joke = mJokes.get(position);
             holder.jokeTextView.setText(joke.joke);
+
+            String gifUrl = "http://media3.giphy.com/media/Aj9bb31TYNomQ/200_d.gif";
+
+            Glide
+                    .with(JokesFragment.this)
+                    .load(gifUrl)
+                    .asBitmap()
+                    .into(holder.jokeImageView);
         }
 
         @Override
@@ -210,11 +221,13 @@ public class JokesFragment extends Fragment implements JokesContract.View
         public class ViewHolder extends RecyclerView.ViewHolder
         {
             private final TextView jokeTextView;
+            private final ImageView jokeImageView;
 
             public ViewHolder(View itemView)
             {
                 super(itemView);
                 jokeTextView = (TextView) itemView.findViewById(R.id.joke_text);
+                jokeImageView = (ImageView) itemView.findViewById(R.id.joke_image);
             }
         }
     }
