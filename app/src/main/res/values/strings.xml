@@ -4,4 +4,6 @@
     <string name="error_message">Ooops…it seems you\'ve been hit by the fist of Chuck Norris.</string>
     <string name="retry_button_text">Retry</string>
     <string name="chuck">chuck</string>
+    <string name="giphy_api_key">dc6zaTOxFJmzC</string>
+    <string name="giphy_tag">chuck+norris</string>
 </resources>

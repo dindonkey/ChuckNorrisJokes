@@ -1,0 +1,33 @@
+{
+  "data": {
+    "type": "gif",
+    "id": "EjTG4LTO1Zqik",
+    "url": "http://giphy.com/gifs/upvote-first-chuck-EjTG4LTO1Zqik",
+    "image_original_url": "http://media0.giphy.com/media/EjTG4LTO1Zqik/giphy.gif",
+    "image_url": "http://media0.giphy.com/media/EjTG4LTO1Zqik/giphy.gif",
+    "image_mp4_url": "http://media0.giphy.com/media/EjTG4LTO1Zqik/giphy.mp4",
+    "image_frames": "78",
+    "image_width": "320",
+    "image_height": "180",
+    "fixed_height_downsampled_url": "http://media0.giphy.com/media/EjTG4LTO1Zqik/200_d.gif",
+    "fixed_height_downsampled_width": "356",
+    "fixed_height_downsampled_height": "200",
+    "fixed_width_downsampled_url": "http://media0.giphy.com/media/EjTG4LTO1Zqik/200w_d.gif",
+    "fixed_width_downsampled_width": "200",
+    "fixed_width_downsampled_height": "113",
+    "fixed_height_small_url": "http://media0.giphy.com/media/EjTG4LTO1Zqik/100.gif",
+    "fixed_height_small_still_url": "http://media0.giphy.com/media/EjTG4LTO1Zqik/100_s.gif",
+    "fixed_height_small_width": "178",
+    "fixed_height_small_height": "100",
+    "fixed_width_small_url": "http://media0.giphy.com/media/EjTG4LTO1Zqik/100w.gif",
+    "fixed_width_small_still_url": "http://media0.giphy.com/media/EjTG4LTO1Zqik/100w_s.gif",
+    "fixed_width_small_width": "100",
+    "fixed_width_small_height": "56",
+    "username": "",
+    "caption": ""
+  },
+  "meta": {
+    "status": 200,
+    "msg": "OK"
+  }
+}
