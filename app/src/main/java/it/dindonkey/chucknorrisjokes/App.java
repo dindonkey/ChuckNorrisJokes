@@ -6,6 +6,8 @@ import com.squareup.leakcanary.LeakCanary;
 
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiRetrofit;
+import it.dindonkey.chucknorrisjokes.data.GiphyServiceApi;
+import it.dindonkey.chucknorrisjokes.data.GiphyServiceApiRetrofit;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.data.JokesRepository;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
@@ -29,7 +31,10 @@ public class App extends Application
                 AndroidSchedulers.mainThread());
         ChuckNorrisServiceApi chuckNorrisServiceApi = ChuckNorrisServiceApiRetrofit.createService(
                 HttpUrl.parse(getString(R.string.chucknorrisapi_base_url)));
+        GiphyServiceApi giphyServiceApi = GiphyServiceApiRetrofit.createService(HttpUrl.parse(
+                getString(R.string.giphyapi_base_url)));
         JokesRepository jokesRepository = new InMemoryJokesRepository(chuckNorrisServiceApi,
+                giphyServiceApi,
                 schedulerManager);
         mJokesUserActionsListener = new JokesPresenter(jokesRepository);
         mRxBus = new RxBus();

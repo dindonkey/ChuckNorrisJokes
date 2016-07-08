@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
+import it.dindonkey.chucknorrisjokes.data.GiphyServiceApi;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
@@ -25,7 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InMemoryJokesRepositoryTest
+public class InMemoryJokesRepositoryCacheAndSubscriptionTest
 {
     private InMemoryJokesRepository mInMemoryJokesRepository;
     private TestSubscriber<List<Joke>> mTestSubscriber;
@@ -33,6 +34,8 @@ public class InMemoryJokesRepositoryTest
 
     @Mock
     ChuckNorrisServiceApi mChuckNorrisServiceApiMock;
+    @Mock
+    GiphyServiceApi mGiphyServiceApi;
     @Mock
     DummyHttpClient mDummyHttpClientMock;
 
@@ -47,6 +50,7 @@ public class InMemoryJokesRepositoryTest
         SchedulerManager schedulerManager = new SchedulerManager(Schedulers.immediate(),
                 Schedulers.immediate());
         mInMemoryJokesRepository = new InMemoryJokesRepository(mChuckNorrisServiceApiMock,
+                mGiphyServiceApi,
                 schedulerManager);
     }
 

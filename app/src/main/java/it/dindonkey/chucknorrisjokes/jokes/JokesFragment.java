@@ -196,12 +196,9 @@ public class JokesFragment extends Fragment implements JokesContract.View
         {
             Joke joke = mJokes.get(position);
             holder.jokeTextView.setText(joke.joke);
-
-            String gifUrl = "http://media3.giphy.com/media/Aj9bb31TYNomQ/200_d.gif";
-
             Glide
                     .with(JokesFragment.this)
-                    .load(gifUrl)
+                    .load(joke.gifUrl)
                     .asBitmap()
                     .into(holder.jokeImageView);
         }

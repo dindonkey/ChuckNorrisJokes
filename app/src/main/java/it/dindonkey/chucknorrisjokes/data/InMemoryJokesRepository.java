@@ -13,14 +13,17 @@ public class InMemoryJokesRepository implements JokesRepository
 {
     private List<Joke> mCachedJokes;
     private final ChuckNorrisServiceApi mChuckNorrisServiceApi;
+    private final GiphyServiceApi mGiphyServiceApi;
     private final SchedulerManager mSchedulerManager;
     private ConnectableObservable<List<Joke>> mCachedObservable;
     private Subscription mSubscription;
 
     public InMemoryJokesRepository(ChuckNorrisServiceApi chuckNorrisServiceApi,
+                                   GiphyServiceApi giphyServiceApi,
                                    SchedulerManager schedulerManager)
     {
         mChuckNorrisServiceApi = chuckNorrisServiceApi;
+        mGiphyServiceApi = giphyServiceApi;
         mSchedulerManager = schedulerManager;
     }
 
@@ -32,6 +35,15 @@ public class InMemoryJokesRepository implements JokesRepository
             if (null == mCachedObservable)
             {
                 mCachedObservable = mChuckNorrisServiceApi.getJokes()
+                        .flatMapIterable(j -> j)
+                        .flatMap(gif ->
+                                mGiphyServiceApi.getRandomGif(GiphyServiceApiRetrofit.GIPHY_API_KEY,
+                                        "norris"), (joke, gif) ->
+                        {
+                            joke.gifUrl = gif.url;
+                            return joke;
+                        })
+                        .toList()
                         .doOnNext(saveJokes())
                         .doOnError(clearCacheOnError())
                         .subscribeOn(mSchedulerManager.computation())
@@ -70,7 +82,7 @@ public class InMemoryJokesRepository implements JokesRepository
     @Override
     public void clearSubscription()
     {
-        if(null != mSubscription && !mSubscription.isUnsubscribed())
+        if (null != mSubscription && !mSubscription.isUnsubscribed())
         {
             mSubscription.unsubscribe();
         }
