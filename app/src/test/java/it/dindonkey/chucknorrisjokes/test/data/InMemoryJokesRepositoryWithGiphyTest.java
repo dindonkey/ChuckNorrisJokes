@@ -19,7 +19,7 @@ import rx.Observable;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +33,7 @@ public class InMemoryJokesRepositoryWithGiphyTest
     ChuckNorrisServiceApi mChuckNorrisServiceApiMock;
     @Mock
     GiphyServiceApi mGiphyServiceApi;
+    private static final String TEST_GIF_URL = "http://gifurl";
 
     @Before
     public void setUp()
@@ -57,13 +58,12 @@ public class InMemoryJokesRepositoryWithGiphyTest
 
         List<Joke> jokes = mTestSubscriber.getOnNextEvents().get(0);
 
-        assertNotNull(jokes.get(0).gifUrl);
-
+        assertEquals(TEST_GIF_URL, jokes.get(0).gifUrl);
     }
 
     private Observable<GiphyGif> testObservableGiphy()
     {
-        return Observable.just(new GiphyGif("http://gifurl"));
+        return Observable.just(new GiphyGif(TEST_GIF_URL));
     }
 
     private Observable<List<Joke>> testObservableJokes()

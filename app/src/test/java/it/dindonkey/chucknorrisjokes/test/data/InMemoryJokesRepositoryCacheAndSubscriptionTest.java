@@ -15,8 +15,8 @@ import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
 import rx.Observable;
+import rx.Observable.OnSubscribe;
 import rx.Scheduler;
-import rx.Subscriber;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
@@ -110,26 +110,13 @@ public class InMemoryJokesRepositoryCacheAndSubscriptionTest
     @SuppressWarnings("SameParameterValue")
     private Observable<List<Joke>> observableWithHttpMockAndDelay(int seconds, Scheduler scheduler)
     {
-        return Observable.create(new Observable.OnSubscribe<List<Joke>>()
-        {
-            @Override
-            public void call(Subscriber<? super List<Joke>> subscriber)
-            {
-                mDummyHttpClientMock.doRequest();
-            }
-        }).delay(seconds, TimeUnit.SECONDS, scheduler);
+        return Observable.create((OnSubscribe<List<Joke>>) s -> mDummyHttpClientMock
+                .doRequest()).delay(seconds, TimeUnit.SECONDS, scheduler);
     }
 
     private Observable<List<Joke>> observableWithHttpMock()
     {
-        return Observable.create(new Observable.OnSubscribe<List<Joke>>()
-        {
-            @Override
-            public void call(Subscriber<? super List<Joke>> subscriber)
-            {
-                mDummyHttpClientMock.doRequest();
-            }
-        });
+        return Observable.create(s -> mDummyHttpClientMock.doRequest());
     }
 
     class DummyHttpClient
