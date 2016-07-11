@@ -31,7 +31,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
@@ -177,7 +176,8 @@ public class JokesActivityUnitTest extends AppActivityTestCase
 
         getApplication().getRxBus().post(new ReloadJokesEvent());
 
-        verify(mJokesPresenterMock, times(2)).loadJokes(false);
+        verify(mJokesPresenterMock).loadJokes(false);
+        verify(mJokesPresenterMock).loadJokes(true);
     }
 
     @After

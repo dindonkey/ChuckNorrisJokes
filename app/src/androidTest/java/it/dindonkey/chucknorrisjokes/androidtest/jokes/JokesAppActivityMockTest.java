@@ -14,6 +14,8 @@ import org.mockito.MockitoAnnotations;
 import it.dindonkey.chucknorrisjokes.androidtest.AppActivityTestCase;
 import it.dindonkey.chucknorrisjokes.androidtest.EspressoExecutor;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
+import it.dindonkey.chucknorrisjokes.data.GiphyGif;
+import it.dindonkey.chucknorrisjokes.data.GiphyServiceApi;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.data.JokesRepository;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
@@ -27,11 +29,13 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
 public class JokesAppActivityMockTest extends AppActivityTestCase
 {
+    public static final GiphyGif TEST_GIPHYGIF = new GiphyGif("foobar");
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(
             JokesActivity.class,
@@ -40,6 +44,8 @@ public class JokesAppActivityMockTest extends AppActivityTestCase
 
     @Mock
     ChuckNorrisServiceApi mChuckNorrisServiceApiMock;
+    @Mock
+    GiphyServiceApi mGiphyServiceApi;
 
     @Before
     public void setUp()
@@ -49,6 +55,7 @@ public class JokesAppActivityMockTest extends AppActivityTestCase
         SchedulerManager schedulerManager = new SchedulerManager(Schedulers.from(EspressoExecutor.getCachedThreadPool()),
                 AndroidSchedulers.mainThread());
         JokesRepository jokesRepository = new InMemoryJokesRepository(mChuckNorrisServiceApiMock,
+                mGiphyServiceApi,
                 schedulerManager);
         JokesPresenter jokesPresenter = new JokesPresenter(jokesRepository);
         getApplication().setJokesUserActionsListener(jokesPresenter);
@@ -58,6 +65,8 @@ public class JokesAppActivityMockTest extends AppActivityTestCase
     public void should_show_test_joke()
     {
         when(mChuckNorrisServiceApiMock.getJokes()).thenReturn(Observable.just(TEST_JOKES));
+        when(mGiphyServiceApi.getRandomGif(anyString(), anyString())).thenReturn(Observable.just(
+                TEST_GIPHYGIF));
 
         mActivityRule.launchActivity(new Intent());
 

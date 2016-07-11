@@ -61,6 +61,20 @@ public class InMemoryJokesRepositoryWithGiphyTest
         assertEquals(TEST_GIF_URL, jokes.get(0).gifUrl);
     }
 
+    @Test
+    public void should_return_empty_gif_if_an_error_occours() throws Exception
+    {
+        when(mGiphyServiceApi.getRandomGif(anyString(),
+                anyString())).thenReturn(testObservableGiphyError());
+
+        mInMemoryJokesRepository.getJokes(mTestSubscriber);
+
+        List<Joke> jokes = mTestSubscriber.getOnNextEvents().get(0);
+
+        assertEquals("", jokes.get(0).gifUrl);
+
+    }
+
     private Observable<GiphyGif> testObservableGiphy()
     {
         return Observable.just(new GiphyGif(TEST_GIF_URL));
@@ -69,5 +83,12 @@ public class InMemoryJokesRepositoryWithGiphyTest
     private Observable<List<Joke>> testObservableJokes()
     {
         return Observable.just(Arrays.asList(new Joke(1, "joke a"), new Joke(2, "b")));
+    }
+
+    private Observable<GiphyGif> testObservableGiphyError()
+    {
+        return Observable.create(s -> {
+            s.onError(new Exception());
+        });
     }
 }

@@ -25,7 +25,6 @@ import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.events.ReloadJokesEvent;
 import rx.Subscription;
-import rx.functions.Action1;
 
 public class JokesFragment extends Fragment implements JokesContract.View
 {
@@ -48,7 +47,6 @@ public class JokesFragment extends Fragment implements JokesContract.View
         super.onCreate(savedInstanceState);
         mJokesAdapter = new JokesAdapter(new ArrayList<Joke>(0));
         mUserActionsListener = getApplication().getJokesUserActionsListener();
-        mUserActionsListener.bindView(this);
         loadingFragment = LoadingFragment.newInstance();
         errorFragment = ErrorFragment.newInstance();
     }
@@ -80,31 +78,18 @@ public class JokesFragment extends Fragment implements JokesContract.View
                 ContextCompat.getColor(getActivity(), R.color.colorPrimary),
                 ContextCompat.getColor(getActivity(), R.color.colorAccent),
                 ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark));
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
-            @Override
-            public void onRefresh()
-            {
-                mUserActionsListener.loadJokes(true);
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(() -> mUserActionsListener.loadJokes(true));
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
+        mUserActionsListener.bindView(this);
         mUserActionsListener.loadJokes(false);
         mReloadEventSubscription = getApplication()
                 .getRxBus()
-                .register(ReloadJokesEvent.class, new Action1<ReloadJokesEvent>()
-                {
-                    @Override
-                    public void call(ReloadJokesEvent reloadJokesEvent)
-                    {
-                        mUserActionsListener.loadJokes(true);
-                    }
-                });
+                .register(ReloadJokesEvent.class, r -> mUserActionsListener.loadJokes(true));
     }
 
     private App getApplication()

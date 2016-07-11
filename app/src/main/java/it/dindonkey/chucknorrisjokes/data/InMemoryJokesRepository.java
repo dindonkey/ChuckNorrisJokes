@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.functions.Action1;
@@ -37,8 +38,10 @@ public class InMemoryJokesRepository implements JokesRepository
                 mCachedObservable = mChuckNorrisServiceApi.getJokes()
                         .flatMapIterable(j -> j)
                         .flatMap(gif ->
-                                mGiphyServiceApi.getRandomGif(GiphyServiceApiRetrofit.GIPHY_API_KEY,
-                                        "norris"), (joke, gif) ->
+                                mGiphyServiceApi
+                                        .getRandomGif(GiphyServiceApiRetrofit.GIPHY_API_KEY,
+                                                "norris")
+                                        .onErrorResumeNext(getEmptyGiphyGif()), (joke, gif) ->
                         {
                             joke.gifUrl = gif.url;
                             return joke;
@@ -57,6 +60,11 @@ public class InMemoryJokesRepository implements JokesRepository
             observer.onNext(mCachedJokes);
             observer.onCompleted();
         }
+    }
+
+    private Observable<GiphyGif> getEmptyGiphyGif()
+    {
+        return Observable.just(new GiphyGif(""));
     }
 
     @NonNull

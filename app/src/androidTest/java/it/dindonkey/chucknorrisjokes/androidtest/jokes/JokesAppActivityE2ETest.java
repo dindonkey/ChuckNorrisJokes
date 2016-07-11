@@ -14,6 +14,8 @@ import it.dindonkey.chucknorrisjokes.androidtest.AppActivityTestCase;
 import it.dindonkey.chucknorrisjokes.androidtest.EspressoExecutor;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApiRetrofit;
+import it.dindonkey.chucknorrisjokes.data.GiphyServiceApi;
+import it.dindonkey.chucknorrisjokes.data.GiphyServiceApiRetrofit;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.data.JokesRepository;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
@@ -50,7 +52,10 @@ public class JokesAppActivityE2ETest extends AppActivityTestCase
                 mMockWebServer.url("/"));
         SchedulerManager schedulerManager = new SchedulerManager(Schedulers.from(EspressoExecutor.getCachedThreadPool()),
                 AndroidSchedulers.mainThread());
+        GiphyServiceApi giphyServiceApi = GiphyServiceApiRetrofit.createService(mMockWebServer.url(
+                "/"));
         JokesRepository jokesRepository = new InMemoryJokesRepository(chuckNorrisServiceApi,
+                giphyServiceApi,
                 schedulerManager);
         JokesPresenter jokesPresenter = new JokesPresenter(jokesRepository);
         getApplication().setJokesUserActionsListener(jokesPresenter);
