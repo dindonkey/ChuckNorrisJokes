@@ -36,9 +36,9 @@ public class ChuckNorrisServiceApiRetrofit
                 .build();
 
         NetworkBehavior behavior = NetworkBehavior.create();
-        behavior.setDelay(BuildConfig.NETWORK_BEHAVIOUR_DELAY, TimeUnit.SECONDS);
-        behavior.setFailurePercent(BuildConfig.NETWORK_BEHAVIOUR_FAILURE_PERCENT);
-        behavior.setVariancePercent(BuildConfig.NETWORK_BEHAVIOUR_VARIANCE_PERCENT);
+        behavior.setDelay(BuildConfig.CHUCK_API_NETWORK_BEHAVIOUR_DELAY, TimeUnit.SECONDS);
+        behavior.setFailurePercent(BuildConfig.CHUCK_API_NETWORK_BEHAVIOUR_FAILURE_PERCENT);
+        behavior.setVariancePercent(BuildConfig.CHUCK_API_NETWORK_BEHAVIOUR_VARIANCE_PERCENT);
 
         MockRetrofit mockRetrofit = new MockRetrofit.Builder(retrofit)
                 .networkBehavior(behavior)

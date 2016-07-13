@@ -38,9 +38,9 @@ public class GiphyServiceApiRetrofit
                 .build();
 
         NetworkBehavior behavior = NetworkBehavior.create();
-        behavior.setDelay(BuildConfig.NETWORK_BEHAVIOUR_DELAY, TimeUnit.SECONDS);
-        behavior.setFailurePercent(BuildConfig.NETWORK_BEHAVIOUR_FAILURE_PERCENT);
-        behavior.setVariancePercent(BuildConfig.NETWORK_BEHAVIOUR_VARIANCE_PERCENT);
+        behavior.setDelay(BuildConfig.GIPHY_API_NETWORK_BEHAVIOUR_DELAY, TimeUnit.SECONDS);
+        behavior.setFailurePercent(BuildConfig.GIPHY_API_NETWORK_BEHAVIOUR_FAILURE_PERCENT);
+        behavior.setVariancePercent(BuildConfig.GIPHY_API_NETWORK_BEHAVIOUR_VARIANCE_PERCENT);
 
         MockRetrofit mockRetrofit = new MockRetrofit.Builder(retrofit)
                 .networkBehavior(behavior)
