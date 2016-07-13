@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:src="@drawable/chuck_sample"
-        android:scaleType="fitXY"/>
+        android:scaleType="centerCrop"/>
 
     <TextView
         style="@android:style/TextAppearance.Small"

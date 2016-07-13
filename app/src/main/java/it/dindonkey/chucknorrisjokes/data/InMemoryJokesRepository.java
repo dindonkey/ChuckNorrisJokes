@@ -40,7 +40,7 @@ public class InMemoryJokesRepository implements JokesRepository
                         .flatMap(gif ->
                                 mGiphyServiceApi
                                         .getRandomGif(GiphyServiceApiRetrofit.GIPHY_API_KEY,
-                                                "norris")
+                                                GiphyServiceApiRetrofit.GIPHY_SEARCH_TAG)
                                         .onErrorResumeNext(getEmptyGiphyGif()), (joke, gif) ->
                         {
                             joke.gifUrl = gif.url;

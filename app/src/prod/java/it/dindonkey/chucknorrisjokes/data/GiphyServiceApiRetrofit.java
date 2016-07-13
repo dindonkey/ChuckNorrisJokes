@@ -20,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GiphyServiceApiRetrofit
 {
     public static final String GIPHY_API_KEY = "dc6zaTOxFJmzC";
+    public static final String GIPHY_SEARCH_TAG = "chuck norris";
 
     public static GiphyServiceApi createService(HttpUrl baseUrl)
     {
