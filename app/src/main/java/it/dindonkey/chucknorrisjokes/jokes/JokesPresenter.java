@@ -41,6 +41,12 @@ public class JokesPresenter implements JokesContract.UserActionsListener
         mJokesRepository.getJokes(mGetJokesSubscriber);
     }
 
+    @Override
+    public void openJokeDetail(Joke joke)
+    {
+        mView.showJokeDetail(joke);
+    }
+
     class GetJokesSubscriber implements Observer<List<Joke>>
     {
         @Override

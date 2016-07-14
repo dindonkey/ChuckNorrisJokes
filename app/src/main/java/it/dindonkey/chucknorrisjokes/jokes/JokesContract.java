@@ -16,6 +16,8 @@ public interface JokesContract
         void hideLoading();
 
         void showError();
+
+        void showJokeDetail(Joke joke);
     }
 
     interface UserActionsListener
@@ -25,5 +27,7 @@ public interface JokesContract
         void unBindView();
 
         void loadJokes(boolean refreshData);
+
+        void openJokeDetail(Joke joke);
     }
 }

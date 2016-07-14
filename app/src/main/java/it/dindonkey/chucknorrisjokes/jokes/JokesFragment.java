@@ -137,6 +137,18 @@ public class JokesFragment extends Fragment implements JokesContract.View
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
+    @Override
+    public void showJokeDetail(Joke joke)
+    {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager
+                .beginTransaction()
+                .add(android.R.id.content, JokesDetailFragment.newInstance(joke))
+                .addToBackStack("JokeDetail") //TODO: E2E test
+                .commit();
+        fragmentManager.executePendingTransactions();
+    }
+
     private void replaceTopFragment(Fragment fragment)
     {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -200,7 +212,7 @@ public class JokesFragment extends Fragment implements JokesContract.View
             notifyDataSetChanged();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
         {
             private final TextView jokeTextView;
             private final ImageView jokeImageView;
@@ -210,6 +222,13 @@ public class JokesFragment extends Fragment implements JokesContract.View
                 super(itemView);
                 jokeTextView = (TextView) itemView.findViewById(R.id.joke_text);
                 jokeImageView = (ImageView) itemView.findViewById(R.id.joke_image);
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View view)
+            {
+                mUserActionsListener.openJokeDetail(mJokes.get(getAdapterPosition()));
             }
         }
     }
