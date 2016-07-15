@@ -14,6 +14,7 @@ import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.data.JokesRepository;
 import it.dindonkey.chucknorrisjokes.jokes.JokesContract;
 import it.dindonkey.chucknorrisjokes.jokes.JokesPresenter;
+import it.dindonkey.chucknorrisjokes.navigator.Navigator;
 import it.dindonkey.chucknorrisjokes.sharedtest.SharedTestCase;
 import rx.Observer;
 
@@ -28,6 +29,8 @@ public class JokesPresenterTest extends SharedTestCase
     JokesContract.View mViewMock;
     @Mock
     JokesRepository mJokesRepositoryMock;
+    @Mock
+    Navigator mNavigatorMock;
 
     @Captor
     ArgumentCaptor<Observer<List<Joke>>> mArgumentCaptor;
@@ -35,7 +38,7 @@ public class JokesPresenterTest extends SharedTestCase
     @Before
     public void setUp()
     {
-        mJokesPresenter = new JokesPresenter(mJokesRepositoryMock);
+        mJokesPresenter = new JokesPresenter(mJokesRepositoryMock, mNavigatorMock);
         mJokesPresenter.bindView(mViewMock);
     }
 
@@ -86,6 +89,13 @@ public class JokesPresenterTest extends SharedTestCase
         mJokesPresenter.loadJokes(true);
 
         verify(mJokesRepositoryMock).clearCache();
+    }
 
+    @Test
+    public void should_navigate_to_joke_detail() throws Exception
+    {
+        mJokesPresenter.openJokeDetail(TEST_JOKES.get(0));
+
+        verify(mNavigatorMock).navigateToJokeDetail(TEST_JOKES.get(0));
     }
 }

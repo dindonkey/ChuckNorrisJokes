@@ -4,17 +4,20 @@ import java.util.List;
 
 import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.data.JokesRepository;
+import it.dindonkey.chucknorrisjokes.navigator.Navigator;
 import rx.Observer;
 
 public class JokesPresenter implements JokesContract.UserActionsListener
 {
     private JokesContract.View mView;
     private final JokesRepository mJokesRepository;
+    private Navigator mNavigator;
     private final GetJokesSubscriber mGetJokesSubscriber;
 
-    public JokesPresenter(JokesRepository jokesRepository)
+    public JokesPresenter(JokesRepository jokesRepository, Navigator navigator)
     {
         mJokesRepository = jokesRepository;
+        mNavigator = navigator;
         mGetJokesSubscriber = new GetJokesSubscriber();
     }
 
@@ -44,7 +47,7 @@ public class JokesPresenter implements JokesContract.UserActionsListener
     @Override
     public void openJokeDetail(Joke joke)
     {
-        mView.showJokeDetail(joke);
+        mNavigator.navigateToJokeDetail(joke);
     }
 
     class GetJokesSubscriber implements Observer<List<Joke>>
