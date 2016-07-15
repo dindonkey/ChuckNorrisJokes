@@ -2,10 +2,7 @@ package it.dindonkey.chucknorrisjokes.navigator;
 
 import it.dindonkey.chucknorrisjokes.data.Joke;
 
-public class Navigator
+public interface Navigator
 {
-    public Void navigateToJokeDetail(Joke joke)
-    {
-        return null;
-    }
+    void navigateToJokeDetail(Joke joke);
 }

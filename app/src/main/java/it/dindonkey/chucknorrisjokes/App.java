@@ -14,6 +14,7 @@ import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
 import it.dindonkey.chucknorrisjokes.events.RxBus;
 import it.dindonkey.chucknorrisjokes.jokes.JokesContract;
 import it.dindonkey.chucknorrisjokes.jokes.JokesPresenter;
+import it.dindonkey.chucknorrisjokes.navigator.ContextNavigator;
 import it.dindonkey.chucknorrisjokes.navigator.Navigator;
 import okhttp3.HttpUrl;
 import rx.android.schedulers.AndroidSchedulers;
@@ -37,7 +38,7 @@ public class App extends Application
         JokesRepository jokesRepository = new InMemoryJokesRepository(chuckNorrisServiceApi,
                 giphyServiceApi,
                 schedulerManager);
-        Navigator navigator = new Navigator();
+        Navigator navigator = new ContextNavigator(getApplicationContext());
 
         mJokesUserActionsListener = new JokesPresenter(jokesRepository, navigator);
         mRxBus = new RxBus();

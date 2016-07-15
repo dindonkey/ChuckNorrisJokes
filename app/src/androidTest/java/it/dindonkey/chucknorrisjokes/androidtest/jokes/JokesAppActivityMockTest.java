@@ -23,6 +23,7 @@ import it.dindonkey.chucknorrisjokes.data.JokesRepository;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
 import it.dindonkey.chucknorrisjokes.jokes.JokesActivity;
 import it.dindonkey.chucknorrisjokes.jokes.JokesPresenter;
+import it.dindonkey.chucknorrisjokes.navigator.ContextNavigator;
 import it.dindonkey.chucknorrisjokes.navigator.Navigator;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -65,7 +66,7 @@ public class JokesAppActivityMockTest extends AppActivityTestCase
         JokesRepository jokesRepository = new InMemoryJokesRepository(mChuckNorrisServiceApiMock,
                 mGiphyServiceApi,
                 schedulerManager);
-        Navigator navigator = new Navigator();
+        Navigator navigator = new ContextNavigator(getApplication().getApplicationContext());
 
         JokesPresenter jokesPresenter = new JokesPresenter(jokesRepository, navigator);
         getApplication().setJokesUserActionsListener(jokesPresenter);
