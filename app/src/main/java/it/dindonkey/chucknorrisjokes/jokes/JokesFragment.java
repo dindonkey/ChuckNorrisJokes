@@ -137,18 +137,6 @@ public class JokesFragment extends Fragment implements JokesContract.View
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
-    @Override
-    public void showJokeDetail(Joke joke)
-    {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager
-                .beginTransaction()
-                .add(android.R.id.content, JokesDetailFragment.newInstance(joke))
-                .addToBackStack("JokeDetail") //TODO: E2E test
-                .commit();
-        fragmentManager.executePendingTransactions();
-    }
-
     private void replaceTopFragment(Fragment fragment)
     {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

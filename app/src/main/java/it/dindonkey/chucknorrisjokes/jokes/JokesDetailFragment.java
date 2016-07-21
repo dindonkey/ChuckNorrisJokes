@@ -16,7 +16,6 @@ import it.dindonkey.chucknorrisjokes.data.Joke;
 
 public class JokesDetailFragment extends Fragment
 {
-
     private static Joke mJoke;
 
     public static JokesDetailFragment newInstance(Joke joke)

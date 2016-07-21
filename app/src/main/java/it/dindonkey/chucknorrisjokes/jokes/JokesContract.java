@@ -16,8 +16,6 @@ public interface JokesContract
         void hideLoading();
 
         void showError();
-
-        void showJokeDetail(Joke joke);
     }
 
     interface UserActionsListener

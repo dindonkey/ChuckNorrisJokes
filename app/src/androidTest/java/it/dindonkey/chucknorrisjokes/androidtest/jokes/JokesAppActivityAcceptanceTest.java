@@ -29,7 +29,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -70,7 +72,6 @@ public class JokesAppActivityAcceptanceTest extends AppActivityTestCase
     public void should_load_data_from_network_and_show_jokes() throws Exception
     {
         enqueueJsonHttpResponse("jokes.json");
-
         mActivityRule.launchActivity(new Intent());
 
         onView(withId(R.id.joke_text)).check(matches(withText(containsString("ribbed condoms"))));
@@ -101,4 +102,16 @@ public class JokesAppActivityAcceptanceTest extends AppActivityTestCase
         onView(withId(R.id.joke_detail)).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void should_close_joke_detail_after_back_is_pressed() throws Exception
+    {
+        enqueueJsonHttpResponse("jokes.json");
+        mActivityRule.launchActivity(new Intent());
+
+        onView(withId(R.id.jokes_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.joke_detail)).check(matches(isDisplayed()));
+        pressBack();
+        onView(withId(R.id.joke_detail)).check(doesNotExist());
+    }
 }
