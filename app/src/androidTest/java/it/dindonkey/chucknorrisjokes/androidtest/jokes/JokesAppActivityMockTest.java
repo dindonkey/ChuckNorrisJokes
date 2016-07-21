@@ -1,7 +1,6 @@
 package it.dindonkey.chucknorrisjokes.androidtest.jokes;
 
 import android.content.Intent;
-import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -12,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.androidtest.AppActivityTestCase;
 import it.dindonkey.chucknorrisjokes.androidtest.EspressoExecutor;
 import it.dindonkey.chucknorrisjokes.data.ChuckNorrisServiceApi;
@@ -30,10 +28,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
@@ -80,15 +76,4 @@ public class JokesAppActivityMockTest extends AppActivityTestCase
         onView(withText("test joke")).check(matches(isDisplayed()));
     }
 
-
-    @Test
-    public void should_open_joke_detail_when_a_joke_is_selected() throws Exception
-    {
-        mActivityRule.launchActivity(new Intent());
-
-        onView(withId(R.id.jokes_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        onView(withId(R.id.joke_detail)).check(matches(isDisplayed()));
-    }
 }

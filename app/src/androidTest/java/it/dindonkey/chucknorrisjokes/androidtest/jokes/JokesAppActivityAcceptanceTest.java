@@ -1,6 +1,7 @@
 package it.dindonkey.chucknorrisjokes.androidtest.jokes;
 
 import android.content.Intent;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -36,7 +37,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
-public class JokesAppActivityE2ETest extends AppActivityTestCase
+public class JokesAppActivityAcceptanceTest extends AppActivityTestCase
 {
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(
@@ -86,6 +87,18 @@ public class JokesAppActivityE2ETest extends AppActivityTestCase
         onView(withId(R.id.error_fragment)).check(matches(isDisplayed()));
         onView(withId(R.id.retry_button)).perform(click());
         onView(withId(R.id.joke_text)).check(matches(withText(containsString("ribbed condoms"))));
-
     }
+
+    @Test
+    public void should_open_joke_detail_when_a_joke_is_selected() throws Exception
+    {
+        enqueueJsonHttpResponse("jokes.json");
+        mActivityRule.launchActivity(new Intent());
+
+        onView(withId(R.id.jokes_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        onView(withId(R.id.joke_detail)).check(matches(isDisplayed()));
+    }
+
 }

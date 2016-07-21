@@ -22,6 +22,7 @@ public class ContextNavigator implements Navigator
     {
         Intent intent = new Intent(mContext, JokeDetailActivity.class);
         intent.putExtra(JokeDetailActivity.JOKE_EXTRA_KEY, Parcels.wrap(joke));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 }
