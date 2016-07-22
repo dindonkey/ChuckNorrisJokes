@@ -27,5 +27,7 @@ public interface JokesContract
         void loadJokes(boolean refreshData);
 
         void openJokeDetail(Joke joke);
+
+        void clearSubscription();
     }
 }

@@ -102,6 +102,7 @@ public class JokesFragment extends Fragment implements JokesContract.View
     {
         super.onPause();
         mUserActionsListener.unBindView();
+        mUserActionsListener.clearSubscription();
         if (null != mReloadEventSubscription)
         {
             mReloadEventSubscription.unsubscribe();

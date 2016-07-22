@@ -50,6 +50,12 @@ public class JokesPresenter implements JokesContract.UserActionsListener
         mNavigator.navigateToJokeDetail(joke);
     }
 
+    @Override
+    public void clearSubscription()
+    {
+        mJokesRepository.clearSubscription();
+    }
+
     class GetJokesSubscriber implements Observer<List<Joke>>
     {
         @Override

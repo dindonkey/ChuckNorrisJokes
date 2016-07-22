@@ -98,4 +98,12 @@ public class JokesPresenterTest extends SharedTestCase
 
         verify(mNavigatorMock).navigateToJokeDetail(TEST_JOKES.get(0));
     }
+
+    @Test
+    public void should_cancel_subscription() throws Exception
+    {
+        mJokesPresenter.clearSubscription();
+
+        verify(mJokesRepositoryMock).clearSubscription();
+    }
 }

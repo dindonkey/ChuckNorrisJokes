@@ -64,13 +64,23 @@ public class JokesActivityUnitTest extends AppActivityTestCase
     }
 
     @Test
-    public void should_unbind_view()
+    public void should_unbind_view_on_pause()
     {
         mActivityRule.launchActivity(new Intent());
 
         rotateScreen(mActivityRule.getActivity());
 
         verify(mJokesPresenterMock).unBindView();
+    }
+
+    @Test
+    public void should_cancel_subscription_on_pause() throws Exception
+    {
+        mActivityRule.launchActivity(new Intent());
+
+        rotateScreen(mActivityRule.getActivity());
+
+        verify(mJokesPresenterMock).clearSubscription();
     }
 
     @Test
