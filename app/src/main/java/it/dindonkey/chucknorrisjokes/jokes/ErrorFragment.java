@@ -8,18 +8,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import it.dindonkey.chucknorrisjokes.App;
 import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.databinding.FragmentErrorBinding;
 import it.dindonkey.chucknorrisjokes.events.ReloadJokesEvent;
+import it.dindonkey.chucknorrisjokes.events.RxBus;
 
 public class ErrorFragment extends Fragment
 {
-    public static final String TAG = "error_fragment";
+    @Inject
+    RxBus mRxBus;
 
     public static ErrorFragment newInstance()
     {
         return new ErrorFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
     }
 
     @Nullable
@@ -38,7 +49,7 @@ public class ErrorFragment extends Fragment
 
     public void onRetryButtonClick(View view)
     {
-        ((App) getActivity().getApplication()).getRxBus().post(new ReloadJokesEvent());
+        mRxBus.post(new ReloadJokesEvent());
     }
 
 }

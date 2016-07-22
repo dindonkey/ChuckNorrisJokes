@@ -20,15 +20,24 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import it.dindonkey.chucknorrisjokes.App;
 import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.data.Joke;
 import it.dindonkey.chucknorrisjokes.events.ReloadJokesEvent;
+import it.dindonkey.chucknorrisjokes.events.RxBus;
+import it.dindonkey.chucknorrisjokes.jokes.JokesContract.UserActionsListener;
 import rx.Subscription;
 
 public class JokesFragment extends Fragment implements JokesContract.View
 {
-    private JokesContract.UserActionsListener mUserActionsListener;
+    @Inject
+    UserActionsListener mUserActionsListener;
+
+    @Inject
+    RxBus mRxBus;
+
     private JokesAdapter mJokesAdapter;
 
     private ErrorFragment errorFragment;
@@ -45,8 +54,9 @@ public class JokesFragment extends Fragment implements JokesContract.View
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mJokesAdapter = new JokesAdapter(new ArrayList<Joke>(0));
-        mUserActionsListener = getApplication().getJokesUserActionsListener();
+        getApplication().getComponent().inject(this);
+
+        mJokesAdapter = new JokesAdapter(new ArrayList<>(0));
         loadingFragment = LoadingFragment.newInstance();
         errorFragment = ErrorFragment.newInstance();
     }
@@ -87,9 +97,8 @@ public class JokesFragment extends Fragment implements JokesContract.View
         super.onResume();
         mUserActionsListener.bindView(this);
         mUserActionsListener.loadJokes(false);
-        mReloadEventSubscription = getApplication()
-                .getRxBus()
-                .register(ReloadJokesEvent.class, r -> mUserActionsListener.loadJokes(true));
+        mReloadEventSubscription = mRxBus.register(ReloadJokesEvent.class,
+                r -> mUserActionsListener.loadJokes(true));
     }
 
     private App getApplication()
