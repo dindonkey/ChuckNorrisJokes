@@ -26,7 +26,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
-public class ErrorFragmentUnitTestApp extends AppActivityTestCase
+public class ErrorFragmentUnitTest extends AppActivityTestCase
 {
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(

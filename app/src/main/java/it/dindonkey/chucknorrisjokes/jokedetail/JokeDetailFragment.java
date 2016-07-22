@@ -1,4 +1,4 @@
-package it.dindonkey.chucknorrisjokes.jokes;
+package it.dindonkey.chucknorrisjokes.jokedetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,14 +14,14 @@ import com.bumptech.glide.Glide;
 import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.data.Joke;
 
-public class JokesDetailFragment extends Fragment
+public class JokeDetailFragment extends Fragment
 {
     private static Joke mJoke;
 
-    public static JokesDetailFragment newInstance(Joke joke)
+    public static JokeDetailFragment newInstance(Joke joke)
     {
         mJoke = joke;
-        return new JokesDetailFragment();
+        return new JokeDetailFragment();
     }
 
     @Nullable
@@ -36,7 +36,7 @@ public class JokesDetailFragment extends Fragment
 
         jokeTextView.setText(mJoke.joke);
         Glide
-                .with(JokesDetailFragment.this)
+                .with(JokeDetailFragment.this)
                 .load(mJoke.gifUrl)
                 .asGif()
                 .into(jokeImageView);

@@ -10,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+
 import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.androidtest.AppActivityTestCase;
 import it.dindonkey.chucknorrisjokes.androidtest.EspressoExecutor;
@@ -20,6 +22,7 @@ import it.dindonkey.chucknorrisjokes.data.GiphyServiceApiRetrofit;
 import it.dindonkey.chucknorrisjokes.data.InMemoryJokesRepository;
 import it.dindonkey.chucknorrisjokes.data.JokesRepository;
 import it.dindonkey.chucknorrisjokes.data.SchedulerManager;
+import it.dindonkey.chucknorrisjokes.events.RxBus;
 import it.dindonkey.chucknorrisjokes.jokes.JokesActivity;
 import it.dindonkey.chucknorrisjokes.jokes.JokesPresenter;
 import it.dindonkey.chucknorrisjokes.navigator.ContextNavigator;
@@ -39,7 +42,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
-public class JokesAppActivityAcceptanceTest extends AppActivityTestCase
+public class JokesActivityAcceptanceTest extends AppActivityTestCase
 {
     @Rule
     public final ActivityTestRule<JokesActivity> mActivityRule = new ActivityTestRule<>(
@@ -47,12 +50,15 @@ public class JokesAppActivityAcceptanceTest extends AppActivityTestCase
             false,
             false);
 
-    @Before
-    public void setUp() throws Exception
+    public JokesActivityAcceptanceTest() throws IOException
     {
         mMockWebServer = new MockWebServer();
         mMockWebServer.start();
+    }
 
+    @Before
+    public void setUp() throws Exception
+    {
         ChuckNorrisServiceApi chuckNorrisServiceApi = ChuckNorrisServiceApiRetrofit.createService(
                 mMockWebServer.url("/"));
         SchedulerManager schedulerManager = new SchedulerManager(Schedulers.from(EspressoExecutor.getCachedThreadPool()),
@@ -66,6 +72,7 @@ public class JokesAppActivityAcceptanceTest extends AppActivityTestCase
 
         JokesPresenter jokesPresenter = new JokesPresenter(jokesRepository, navigator);
         getApplication().setJokesUserActionsListener(jokesPresenter);
+        getApplication().setRxBus(new RxBus());
     }
 
     @Test

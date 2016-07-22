@@ -9,7 +9,6 @@ import org.parceler.Parcels;
 
 import it.dindonkey.chucknorrisjokes.R;
 import it.dindonkey.chucknorrisjokes.data.Joke;
-import it.dindonkey.chucknorrisjokes.jokes.JokesDetailFragment;
 
 public class JokeDetailActivity extends AppCompatActivity
 {
@@ -25,7 +24,7 @@ public class JokeDetailActivity extends AppCompatActivity
         if (null == savedInstanceState && null != joke)
         {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.content_frame, JokesDetailFragment.newInstance(joke));
+            transaction.add(R.id.content_frame, JokeDetailFragment.newInstance(joke));
             transaction.commit();
         }
     }

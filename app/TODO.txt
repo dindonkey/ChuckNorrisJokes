@@ -1,6 +1,4 @@
-TODO: test repository on error clear cache
 TODO: rotation onerror fragment should not resubmit request
-TODO: test clear subscription
 TODO: empty jokes list case
 TODO: Dagger 2
 TODO: build gradle structure like google example
