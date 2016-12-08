@@ -1,0 +1,17 @@
+{
+  "result":
+  {
+    "favourites":
+    [
+      {
+        "favouriteid": "1",
+        "oldprice": "250.5",
+        "offer":
+        {
+          "id": "1",
+          "name": "offer name"
+        }
+      }
+    ]
+  }
+}
